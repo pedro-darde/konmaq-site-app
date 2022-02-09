@@ -1,5 +1,5 @@
 export type Product = {
-  [key in RequiredFieldsProduct]: string | number | boolean;
+  [key in RequiredFieldsProduct]: string | number | boolean | Array<number>;
 };
 
 export type RequiredFieldsProduct =
