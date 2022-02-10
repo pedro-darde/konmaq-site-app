@@ -15,9 +15,10 @@ import {
 } from "@mui/material";
 import CurrencyFormat from "react-currency-format";
 import { AddedSupplier } from "../../interfaces/Supplier";
-import { DropzoneArea } from "material-ui-dropzone";
+import { DropzoneArea } from "mui-file-dropzone";
+import Image from "next/image";
 type FormProductProps = {
-  handleSubmit: (product: Product) => void;
+  handleSubmit: (product: Product, files: File[]) => void;
   categories: Category[];
   suppliers: AddedSupplier[];
 };
@@ -44,9 +45,11 @@ export default function FormProduct({
     categories: [],
   });
 
+  const [files, setFiles] = useState<Array<File>>([])
+
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
-    handleSubmit(product);
+    handleSubmit(product, files);
   };
 
   const handleChangeState = (
@@ -218,7 +221,7 @@ export default function FormProduct({
                 }}
                 fixedDecimalScale
                 decimalScale={2}
-                suffix={" m"}
+                suffix={" cm"}
                 prefix={""}
                 value={product.height as string}
               />
@@ -236,7 +239,7 @@ export default function FormProduct({
                 }}
                 fixedDecimalScale
                 decimalScale={2}
-                suffix={" m"}
+                suffix={" cm"}
                 prefix={""}
                 value={product.length as string}
               />
@@ -255,7 +258,7 @@ export default function FormProduct({
                 }}
                 fixedDecimalScale
                 decimalScale={2}
-                suffix={" m"}
+                suffix={" cm"}
                 prefix={""}
                 value={product.width as string}
               />
@@ -349,8 +352,9 @@ export default function FormProduct({
             <Grid item xs={12}>
               <DropzoneArea
                 onChange={(files) => {
-                  console.log(files);
+                  setFiles(files)
                 }}
+                fileObjects={''}
                 acceptedFiles={[".png", ".jpg", ".jpeg"]}
                 dropzoneText={"Arraste e solte o arquivo aqui"}
                 showPreviewsInDropzone={true}
@@ -364,14 +368,10 @@ export default function FormProduct({
             container
             spacing={2}
             alignItems={"flex-start"}
-            sx={{ marginTop: "1.5em" }}>
+            sx={{ marginTop: "1.25em" }}>
             <Grid item xs={9}></Grid>
             <Grid item xs={3}>
-              <Button
-                color="error"
-                variant="contained"
-                type="submit"
-                style={{ marginLeft: "3.25em" }}>
+              <Button color="error" variant="contained" style={{ marginRight: '1em' }} type="submit">
                 Cadastrar
               </Button>
             </Grid>

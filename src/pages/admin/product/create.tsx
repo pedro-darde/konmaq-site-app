@@ -24,11 +24,14 @@ export default function Create() {
     return response.data;
   });
 
-  const handleSubmit = (product: Product) => {
+  const handleSubmit = (product: Product, files: File[]) => {
+    const formData = new FormData();
+    formData.append('product', JSON.stringify(product))
+    files.forEach(file => {
+      formData.append('images', file)
+    })
     baseService
-      .post<{ product: Product }, { data: any }>("product", {
-        product,
-      })
+      .post<FormData, { data: any }>("product", formData, { headers: { "Content-Type": "multipart/form-data" } })
       .then((res) => {
         console.log(res.data);
       })
