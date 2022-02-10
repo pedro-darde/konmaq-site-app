@@ -15,4 +15,5 @@ export type RequiredFieldsProduct =
   | "weight"
   | "length"
   | "width"
-  | "categories";
+  | "categories"
+  | "height";

@@ -3,6 +3,7 @@ import useSWR from "swr";
 import FormProduct from "../../../components/product/FormProduct";
 import TitleComponent from "../../../components/TitleComponent";
 import { Category } from "../../../interfaces/Category";
+import { AddedSupplier } from "../../../interfaces/Supplier";
 import { Product } from "../../../interfaces/Product";
 import { baseService } from "../../../services/api";
 
@@ -15,14 +16,35 @@ export default function Create() {
     }
   );
 
+  const { data: suppliers, error: supplierError } = useSWR<
+    AddedSupplier[],
+    any
+  >("supplier", async (url) => {
+    const response = await baseService.get<AddedSupplier[]>(url);
+    return response.data;
+  });
+
   const handleSubmit = (product: Product) => {
-    console.log(product);
+    baseService
+      .post<{ product: Product }, { data: any }>("product", {
+        product,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <Container maxWidth="xl">
       <TitleComponent title="Criar Produto" />
-      <FormProduct categories={categories!} handleSubmit={handleSubmit} />
+      <FormProduct
+        categories={categories!}
+        handleSubmit={handleSubmit}
+        suppliers={suppliers!}
+      />
     </Container>
   );
 }

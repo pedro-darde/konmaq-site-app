@@ -39,6 +39,7 @@ export default function FormSupplierComponent({
     city_name: "",
   });
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
+  
   const handleChangeState = (
     fieldName: FieldNamesSupplier,
     value: string | number
@@ -142,6 +143,20 @@ export default function FormSupplierComponent({
                 value={maskCellPhone(supplier.phone_number as string)}
                 onChange={(e) => {
                   handleChangeState("phone_number", e.target.value);
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                variant="standard"
+                fullWidth
+                color="success"
+                label="Descricao"
+                required
+                value={supplier.description}
+                onChange={(e) => {
+                  handleChangeState("description", e.target.value);
                 }}
               />
             </Grid>

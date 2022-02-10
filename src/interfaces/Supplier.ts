@@ -15,3 +15,9 @@ export type FieldNamesSupplier =
   | "street_number"
   | "additional"
   | "additional";
+
+export type AddedSupplier = {
+  [key in FieldNamesSupplierAdded]: string | number;
+};
+
+export type FieldNamesSupplierAdded = FieldNamesSupplier | "id";

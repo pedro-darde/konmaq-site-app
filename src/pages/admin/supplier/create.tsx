@@ -6,6 +6,7 @@ import { baseService } from "../../../services/api";
 
 export default function Create() {
   const addSupplier = (supplier: Supplier) => {
+    console.log(supplier)
     baseService
       .post<{ supplier: Supplier }, { data: any }>("supplier", { supplier })
       .then((res) => {
