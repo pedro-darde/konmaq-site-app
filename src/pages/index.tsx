@@ -1,9 +1,17 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
 import styles from "../../styles/Home.module.css";
+import OpenPageComponent from "../components/OpenPageComponent";
+import { ProductAdded } from "../interfaces/Product";
+import { baseService } from "../services/api";
 
-const Home: NextPage = () => {
+type HomeProps = {
+  product: { releases: ProductAdded[]; popular: ProductAdded[] };
+};
+export default function Home({ product }: HomeProps) {
+  useEffect(() => {}, []);
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1> MAIN COMPONENT </h1>
+        <OpenPageComponent product={product} />
       </main>
 
       <footer className={styles.footer}>
@@ -28,6 +36,14 @@ const Home: NextPage = () => {
       </footer>
     </div>
   );
-};
+}
 
-export default Home;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { data: product } = await baseService.get<{
+    releases: ProductAdded[];
+    popular: ProductAdded[];
+  }>("product-homepage");
+  return {
+    props: { product }, // will be passed to the page component as props
+  };
+};

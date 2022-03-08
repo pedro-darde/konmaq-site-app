@@ -17,3 +17,9 @@ export type RequiredFieldsProduct =
   | "width"
   | "categories"
   | "height";
+
+export type FieldsOfProductAdded = RequiredFieldsProduct | "id";
+
+export type ProductAdded = {
+  [key in FieldsOfProductAdded]: string | number | boolean | Array<number>;
+};

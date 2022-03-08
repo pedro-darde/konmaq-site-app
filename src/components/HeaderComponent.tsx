@@ -12,16 +12,24 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Login, PersonAdd } from "@mui/icons-material";
+import {
+  Login,
+  PersonAdd,
+  ShoppingCartCheckoutRounded,
+} from "@mui/icons-material";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Image from "next/image";
 import LogoImage from "../../public/konmaqlogo.jpg";
-import { Button } from "@mui/material";
+import { Avatar, Badge, Button, Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
+import colors from "../constants/colors";
+import { useCart } from "../hooks/useCart";
+import { ProductCartShow } from "./product/ProductCartShow";
+import { KONMAP_PRODUCTS_KEY, storage } from "../services/konmaq_storage";
+import { ProductAdded } from "../interfaces/Product";
 
 interface HeaderProps {
   childComponent: JSX.Element;
@@ -29,6 +37,7 @@ interface HeaderProps {
 
 const drawerWidth = 240;
 const openedMixin = (theme: Theme): CSSObject => ({
+  backgroundColor: colors.primary_color,
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -38,6 +47,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
+  backgroundColor: colors.primary_color,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -103,6 +113,17 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openAnchor = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const { products, load } = useCart();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,6 +132,53 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const MenuCart = () => {
+    return (
+      <Menu
+        anchorEl={anchorEl}
+        id="cart-menu"
+        open={openAnchor}
+        onClickCapture={() => {
+          console.log(`aqui`);
+        }}
+        onClose={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+        <ProductCartShow />
+      </Menu>
+    );
+  };
+
+  React.useEffect(() => {
+    load();
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -132,16 +200,26 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
           <Box sx={{ marginLeft: "auto" }}>
             <Button
               startIcon={<PersonAdd />}
-              variant="outlined"
-              sx={{ marginRight: "1rem" }}
+              sx={{ marginRight: "1rem", color: "white" }}
               onClick={() => {
                 router.push("/users/create");
               }}>
               Cadastrar-se
             </Button>
-            <Button startIcon={<Login />} variant="outlined">
+            <Button startIcon={<Login />} sx={{ color: "white" }}>
               Ja sou usuario{" "}
             </Button>
+            <MenuCart />
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={handleClick}
+              aria-controls={openAnchor ? "cart-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openAnchor ? "true" : undefined}>
+              <Badge color="primary" badgeContent={products.length}>
+                <ShoppingCartCheckoutRounded color="primary" fontSize="large" />
+              </Badge>
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -157,14 +235,12 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button>
+            <ListItemIcon>
+              <InboxIcon color="info" />
+            </ListItemIcon>
+            <ListItemText primary={"MEUS ITENS"} sx={{ color: "white" }} />
+          </ListItem>
         </List>
         <Divider />
       </Drawer>

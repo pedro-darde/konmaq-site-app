@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import useAlert from "../hooks/useAlert";
 
 export type PrimitiveDate<Type> = {
   [Key in keyof Type]: Type[Key] extends Date ? string : Type[Key];
@@ -15,10 +16,38 @@ export interface IPaginationFilter {
 
 class BaseService {
   private axiosClient: AxiosInstance;
+  private alert = useAlert();
   constructor() {
     this.axiosClient = axios.create({
       baseURL: "http://localhost:3335/api/",
     });
+
+    this.axiosClient.interceptors.request.use(
+      (request) => {
+        console.log(request.url)
+        return Promise.resolve(request)
+      },
+      (error) => {
+        if (error.response && error.response.data) {
+          this.alert.fire(error.response.data.error);
+        } else {
+          this.alert.fire("Ocorreu um erro interno");
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    this.axiosClient.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.data) {
+          this.alert.fire(error.response.data.error);
+        } else {
+          this.alert.fire("Ocorreu um erro interno");
+        }
+        return Promise.reject(error);
+      }
+    );
   }
 
   public get<Type>(

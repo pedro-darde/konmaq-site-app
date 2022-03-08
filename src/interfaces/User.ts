@@ -2,6 +2,28 @@ export type User = {
   [key in FieldNamesUser]: string | boolean | number;
 };
 
+export type UserAdd = {
+  [key in FieldNamesUserAdd]: string | boolean | number;
+};
+
+export type FieldNamesUserAdd =
+  | "id"
+  | "document"
+  | "name_social_name"
+  | "insc_estadual"
+  | "isento"
+  | "email"
+  | "phone_number"
+  | "country"
+  | "neighboor"
+  | "street_name"
+  | "street_number"
+  | "additional"
+  | "cep"
+  | "password"
+  | "city"
+  | "city_name";
+
 export type FieldNamesUser =
   | "document"
   | "name_social_name"

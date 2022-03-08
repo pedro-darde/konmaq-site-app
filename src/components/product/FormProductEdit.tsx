@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Category } from "../../interfaces/Category";
-import { Product, RequiredFieldsProduct } from "../../interfaces/Product";
+import { Product, ProductAdded, RequiredFieldsProduct } from "../../interfaces/Product";
 import {
   Grid,
   Paper,
@@ -17,32 +17,19 @@ import CurrencyFormat from "react-currency-format";
 import { AddedSupplier } from "../../interfaces/Supplier";
 import { DropzoneArea } from "mui-file-dropzone";
 type FormProductProps = {
-  handleSubmit: (product: Product, files: File[]) => void;
+  handleSubmit: (product: ProductAdded, files: File[]) => void;
   categories: Category[];
   suppliers: AddedSupplier[];
+  productEdit: ProductAdded
 };
 
-export default function FormProduct({
+export default function FormProductEdit({
   categories,
   handleSubmit,
   suppliers,
+  productEdit
 }: FormProductProps) {
-  const [product, setProduct] = useState<Product>({
-    alias: "",
-    deadline: "5",
-    description: "",
-    discount: "0",
-    keywords: "",
-    length: "0",
-    price: "0",
-    promotion: "0",
-    supplier: "",
-    title: "",
-    weight: "0",
-    width: "0",
-    height: "0",
-    categories: [],
-  });
+  const [product, setProduct] = useState<ProductAdded>(productEdit);
 
   const [files, setFiles] = useState<Array<File>>([])
   const formSubmit = (e: FormEvent) => {
@@ -57,7 +44,6 @@ export default function FormProduct({
     setProduct((currentProduct) => {
       let newProduct = Object.assign({}, currentProduct);
       newProduct[field] = value;
-
       return newProduct;
     });
   };

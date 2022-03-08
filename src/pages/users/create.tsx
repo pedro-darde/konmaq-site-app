@@ -1,18 +1,22 @@
 import { Container } from "@mui/material";
+import { useRouter } from "next/router";
 import TitleComponent from "../../components/TitleComponent";
 import FormUserComponent from "../../components/user/FormUserComponent";
-import { User } from "../../interfaces/User";
+import { User, UserAdd } from "../../interfaces/User";
 import { baseService } from "../../services/api";
+import useAlert from "../../hooks/useAlert";
 
 export default function Create() {
+  const router = useRouter();
+  const MyAlert = useAlert();
   const addUser = (user: User) => {
     baseService
-      .post<{ user: User }, { data: any }>("user", { user })
+      .post<{ user: User }, UserAdd>("user", { user })
       .then((res) => {
-        console.log(res.data);
+        router.push(`/users/${res.data.id}`);
       })
       .catch((err) => {
-        console.log(JSON.stringify(err.response));
+      
       });
   };
   return (
