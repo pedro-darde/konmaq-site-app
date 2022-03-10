@@ -6,7 +6,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,6 +15,7 @@ import {
   Login,
   PersonAdd,
   ShoppingCartCheckoutRounded,
+  ShoppingCartRounded,
 } from "@mui/icons-material";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -23,13 +23,11 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Image from "next/image";
 import LogoImage from "../../public/konmaqlogo.jpg";
-import { Avatar, Badge, Button, Menu, MenuItem } from "@mui/material";
+import {  Badge, Button, Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
 import colors from "../constants/colors";
 import { useCart } from "../hooks/useCart";
 import { ProductCartShow } from "./product/ProductCartShow";
-import { KONMAP_PRODUCTS_KEY, storage } from "../services/konmaq_storage";
-import { ProductAdded } from "../interfaces/Product";
 
 interface HeaderProps {
   childComponent: JSX.Element;
@@ -149,6 +147,9 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
+            maxHeight: 550,
+            overflowY: "scroll",
+            width: 500,
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -217,7 +218,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
               aria-haspopup="true"
               aria-expanded={openAnchor ? "true" : undefined}>
               <Badge color="primary" badgeContent={products.length}>
-                <ShoppingCartCheckoutRounded color="primary" fontSize="large" />
+                <ShoppingCartRounded color="primary" fontSize="large" />
               </Badge>
             </IconButton>
           </Box>

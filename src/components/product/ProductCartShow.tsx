@@ -1,69 +1,160 @@
-import { Add, Delete, Remove } from "@mui/icons-material";
+import { Add, Delete, Remove, ShoppingCartCheckout } from "@mui/icons-material";
 import {
+  Box,
+  Button,
   FormControl,
-  Grid,
   IconButton,
   InputLabel,
   MenuItem,
-  MenuList,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
+import { BoxProps } from "@mui/system";
 import { useCart } from "../../hooks/useCart";
+
+function Item(props: BoxProps) {
+  const { sx, ...other } = props;
+  return (
+    <Box
+      sx={{
+        p: 1,
+        m: 1,
+        ...sx,
+      }}
+      {...other}
+    />
+  );
+}
 
 export const ProductCartShow = () => {
   const { products, changeQuantity, removeItem } = useCart();
+  const localeStringOpts = {
+    minimumFractionDigits: 2,
+    style: "currency",
+    currency: "BRL",
+  };
 
+  const getProductPrice = (
+    price: number,
+    discount: number,
+    promotion: number,
+    quantity: number
+  ) => {
+    if (discount === 0 && promotion === 0) return price * quantity;
+    if (promotion > 0) return promotion * quantity;
+    const percent = discount / 100;
+    const discountValue = price * percent;
+    return (price - discountValue) * quantity;
+  };
+
+  const getAllProductPrices = () => {
+    return products.reduce(
+      (sum, { product, quantity }) =>
+        sum +
+        getProductPrice(
+          Number(product.price),
+          Number(product.discount),
+          Number(product.promotion),
+          quantity
+        ),
+      0
+    );
+  };
+
+  const getAllProductsQuantitys = () => {
+    return products.reduce((sum, { quantity }) => sum + quantity, 0);
+  };
   return (
-    <div>
-      <MenuList>
-        {products?.map(({ product, quantity }, key) => {
-          return (
-            <MenuItem key={key}>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Typography variant="inherit" noWrap>
-                    {product.description}
-                  </Typography>
-                </Grid>
-                <Grid item xs={5}>
-                  <FormControl fullWidth>
-                    <InputLabel> Quantidade </InputLabel>
-                    <Select
-                      value={quantity}
-                      onChange={(event) => {
-                        changeQuantity(
-                          parseInt(product.id.toString()),
-                          parseInt(event.target.value.toString())
-                        );
-                      }}>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                        (qtd, idx) => {
-                          return (
-                            <MenuItem value={qtd} key={idx}>
-                              {qtd}
-                            </MenuItem>
-                          );
-                        }
-                      )}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={1}>
-                  <IconButton
-                    id="remove-item"
-                    onClick={() => {
-                      removeItem(parseInt(product.id.toString()));
+    <div style={{ width: "100%", padding: 2 }}>
+      {products?.map(({ product, quantity }, key) => {
+        return (
+          <>
+            <Box
+              key={key}
+              sx={{
+                display: "grid",
+                alignItems: "center",
+                gridTemplateColumns: "repeat(4, 1fr)",
+              }}>
+              <Item>
+                <Typography variant="inherit" noWrap>
+                  {product.description}
+                </Typography>
+              </Item>
+              <Item sx={{ flexGrow: 1 }}>
+                <FormControl fullWidth>
+                  <InputLabel> Quantidade </InputLabel>
+                  <Select
+                    value={quantity}
+                    onChange={(event) => {
+                      changeQuantity(
+                        parseInt(product.id.toString()),
+                        parseInt(event.target.value.toString())
+                      );
                     }}>
-                    <Delete color="error" />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </MenuItem>
-          );
-        })}
-      </MenuList>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
+                      (qtd, idx) => {
+                        return (
+                          <MenuItem value={qtd} key={idx}>
+                            {qtd}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
+              </Item>
+              <Item>
+                <p>
+                  {getProductPrice(
+                    Number(product.price),
+                    Number(product.discount),
+                    Number(product.promotion),
+                    quantity
+                  ).toLocaleString("pt-BR", localeStringOpts)}
+                </p>
+              </Item>
+              <Item>
+                <IconButton
+                  id="remove-item"
+                  onClick={() => {
+                    removeItem(parseInt(product.id.toString()));
+                  }}>
+                  <Delete color="error" />
+                </IconButton>
+              </Item>
+            </Box>
+          </>
+        );
+      })}
+      <Box
+        sx={{
+          display: "grid",
+          gridAutoColumns: "1fr",
+          gap: 1,
+        }}>
+        <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
+          <p style={{ fontSize: "12px" }}>
+            <p style={{ fontWeight: "bold" }}> Subtotal: </p>
+            {getAllProductPrices().toLocaleString("pt-BR", localeStringOpts)}
+          </p>
+          <p style={{ fontSize: "10px" }}>
+            {" "}
+            {getAllProductsQuantitys() + " item(ns)"}
+          </p>
+        </Item>
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridAutoColumns: "1fr",
+          gap: 1,
+        }}>
+        <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
+          <Button endIcon={<ShoppingCartCheckout />} variant="contained"> Finalizar pedido </Button>
+        </Item>
+      </Box>
     </div>
   );
 };
