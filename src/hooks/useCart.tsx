@@ -26,7 +26,7 @@ type CartContextProviderProps = {
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [productsCart, setProductsCart] = useState<ProductCart[]>([]);
 
-  const load = () => {
+  const load = (): void => {
     const products = storage.get<ProductCart[]>(KONMAP_PRODUCTS_KEY);
     if (products && products.length > 0) {
       setProductsCart(products);
@@ -36,7 +36,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
   };
 
-  const add = (productCart: ProductCart) => {
+  const add = (productCart: ProductCart): void => {
     let products = storage.get<ProductCart[]>(KONMAP_PRODUCTS_KEY);
     let newProducts: ProductCart[] = [];
     newProducts = [...products];
@@ -54,7 +54,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     storage.set(KONMAP_PRODUCTS_KEY, JSON.stringify(newProducts));
   };
 
-  const changeQuantity = (id: number, quantity: number) => {
+  const changeQuantity = (id: number, quantity: number): void => {
     let products = storage.get<ProductCart[]>(KONMAP_PRODUCTS_KEY);
     const indexToChange = products.findIndex(
       (productCard) => productCard.product.id === id
@@ -64,7 +64,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     storage.set(KONMAP_PRODUCTS_KEY, JSON.stringify(products));
   };
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: number): void => {
     const newProductsCart = storage
       .get<ProductCart[]>(KONMAP_PRODUCTS_KEY)
       .filter((productCart) => productCart.product.id !== id);
@@ -86,7 +86,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         load,
         products: productsCart,
         removeItem,
-      }}>
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

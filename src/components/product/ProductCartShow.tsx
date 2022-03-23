@@ -26,7 +26,7 @@ function Item(props: BoxProps) {
   );
 }
 
-export const ProductCartShow = () => {
+export const ProductCartShow = ({ isOrderScreen: boolean } = false) => {
   const { products, changeQuantity, removeItem } = useCart();
   const localeStringOpts = {
     minimumFractionDigits: 2,
@@ -75,7 +75,8 @@ export const ProductCartShow = () => {
                 display: "grid",
                 alignItems: "center",
                 gridTemplateColumns: "repeat(4, 1fr)",
-              }}>
+              }}
+            >
               <Item>
                 <Typography variant="inherit" noWrap>
                   {product.description}
@@ -91,7 +92,8 @@ export const ProductCartShow = () => {
                         parseInt(product.id.toString()),
                         parseInt(event.target.value.toString())
                       );
-                    }}>
+                    }}
+                  >
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
                       (qtd, idx) => {
                         return (
@@ -119,7 +121,8 @@ export const ProductCartShow = () => {
                   id="remove-item"
                   onClick={() => {
                     removeItem(parseInt(product.id.toString()));
-                  }}>
+                  }}
+                >
                   <Delete color="error" />
                 </IconButton>
               </Item>
@@ -132,7 +135,8 @@ export const ProductCartShow = () => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
           <p style={{ fontSize: "12px" }}>
             <p style={{ fontWeight: "bold" }}> Subtotal: </p>
@@ -150,9 +154,13 @@ export const ProductCartShow = () => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
-          <Button endIcon={<ShoppingCartCheckout />} variant="contained"> Finalizar pedido </Button>
+          <Button endIcon={<ShoppingCartCheckout />} variant="contained">
+            {" "}
+            Finalizar pedido{" "}
+          </Button>
         </Item>
       </Box>
     </div>
