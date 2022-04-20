@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import useSWR from "swr";
-import FormCategory from "../../../components/category/FormCategory";
+import FormCategory from "../../../components/category/admin/FormCategory";
 import TitleComponent from "../../../components/TitleComponent";
 import { Category } from "../../../interfaces/Category";
 import { baseService } from "../../../services/api";

@@ -6,12 +6,18 @@ import styles from "../../styles/Home.module.css";
 import OpenPageComponent from "../components/OpenPageComponent";
 import { ProductAdded } from "../interfaces/Product";
 import { baseService } from "../services/api";
+import { Category, CategoryPage } from "../interfaces/Category";
 
 type HomeProps = {
   product: { releases: ProductAdded[]; popular: ProductAdded[] };
+  pageCategories: CategoryPage[];
+  categories: Category[];
 };
-export default function Home({ product }: HomeProps) {
-  useEffect(() => {}, []);
+export default function Home({
+  product,
+  pageCategories,
+  categories,
+}: HomeProps) {
   return (
     <div className={styles.container}>
       <Head>
@@ -20,15 +26,19 @@ export default function Home({ product }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <OpenPageComponent product={product} />
+        <OpenPageComponent
+          product={product}
+          pageCategories={pageCategories}
+          categories={categories}
+        />
       </main>
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/pedro-darde"
           target="_blank"
           rel="noopener noreferrer">
-          Powered by{" "}
+          Powered by{"@pedro_darde"}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
@@ -39,11 +49,24 @@ export default function Home({ product }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { data: product } = await baseService.get<{
+  const promiseProductHome = baseService.get<{
     releases: ProductAdded[];
     popular: ProductAdded[];
   }>("product-homepage");
+
+  const promisePageCategories =
+    baseService.get<CategoryPage[]>("pages/category");
+
+  const promiseCategories = baseService.get<Category[]>("category");
+
+  const [{ data: product }, { data: pageCategories }, { data: categories }] =
+    await Promise.all([
+      promiseProductHome,
+      promisePageCategories,
+      promiseCategories,
+    ]);
+
   return {
-    props: { product }, // will be passed to the page component as props
+    props: { product, pageCategories, categories }, // will be passed to the page component as props
   };
 };

@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { FormEvent, useState } from "react";
-import { Category } from "../../interfaces/Category";
+import { Category } from "../../../interfaces/Category";
 
 type FormCategoryProps = {
   handleSubmit: (category: Category) => void;
