@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useEffect } from "react";
 import styles from "../../styles/Home.module.css";
 import OpenPageComponent from "../components/OpenPageComponent";
-import { ProductAdded } from "../interfaces/Product";
+import { ProductAdded, ProductWithFiles } from "../interfaces/Product";
 import { baseService } from "../services/api";
 import { Category, CategoryPage } from "../interfaces/Category";
 
 type HomeProps = {
-  product: { releases: ProductAdded[]; popular: ProductAdded[] };
+  product: { releases: ProductWithFiles[]; popular: ProductWithFiles[] };
   pageCategories: CategoryPage[];
   categories: Category[];
 };
@@ -37,7 +37,8 @@ export default function Home({
         <a
           href="https://github.com/pedro-darde"
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+        >
           Powered by{"@pedro_darde"}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
@@ -50,8 +51,8 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const promiseProductHome = baseService.get<{
-    releases: ProductAdded[];
-    popular: ProductAdded[];
+    releases: ProductWithFiles[];
+    popular: ProductWithFiles[];
   }>("product-homepage");
 
   const promisePageCategories =

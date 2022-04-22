@@ -12,9 +12,18 @@ export default function useAlert() {
       showCancelButton: true,
       cancelButtonText: "OK",
       showConfirmButton: false,
-      icon: 'error'
+      icon: "error",
     });
   }
 
-  return { fire };
+  function toast(message = "Sucesso") {
+    MySwal.fire({
+      toast: true,
+      icon: "success",
+      html: message,
+      timer: 1750,
+    });
+  }
+
+  return { fire, toast };
 }

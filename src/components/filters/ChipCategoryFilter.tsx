@@ -45,7 +45,7 @@ export default function ChipCategoryFilter({
           bgcolor: colors.header_color,
           borderRadius: 1,
           overflowY: "auto",
-          maxHeight: 200,
+          width: '100%'
         }}>
         {categories.map(({ name, id }) => (
           <>

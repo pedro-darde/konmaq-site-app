@@ -23,3 +23,13 @@ export type FieldsOfProductAdded = RequiredFieldsProduct | "id";
 export type ProductAdded = {
   [key in FieldsOfProductAdded]: string | number | boolean | Array<number>;
 };
+
+export type ProductFiles = {
+  id: number;
+  path: string;
+  filename: string;
+};
+
+export type ProductWithFiles = ProductAdded & {
+  files: ProductFiles[];
+};

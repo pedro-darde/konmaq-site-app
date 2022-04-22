@@ -1,11 +1,11 @@
-import { ProductAdded } from "../interfaces/Product";
+import { ProductAdded, ProductWithFiles } from "../interfaces/Product";
 import React, { createContext, useContext, useState } from "react";
 import { baseService } from "../services/api";
 import { Category } from "../interfaces/Category";
 
 type ProductContextProp = {
   currentCategoryID: number;
-  products: ProductAdded[];
+  products: ProductWithFiles[];
   handleSearch: (category_id: number, parent: Category | null) => void;
   handleClear: () => void;
 };
@@ -20,7 +20,7 @@ type ProductContextProviderProps = {
 export function ProductContextProvider({
   children,
 }: ProductContextProviderProps) {
-  const [products, setProducts] = useState<ProductAdded[]>([]);
+  const [products, setProducts] = useState<ProductWithFiles[]>([]);
   const [currentCategoryID, setCurrentCategoryID] = useState<number>(-1);
   const handleSearch = (
     category_id: number,
@@ -28,7 +28,7 @@ export function ProductContextProvider({
   ) => {
     setCurrentCategoryID(category_id);
     baseService
-      .get<ProductAdded[]>(`product-category/${category_id}`)
+      .get<ProductWithFiles[]>(`product-category/${category_id}`)
       .then((res) => {
         setProducts(res.data);
       })
@@ -38,7 +38,7 @@ export function ProductContextProvider({
 
     if (parent) {
       baseService
-        .get<ProductAdded[]>(`product-category/${parent.id}`)
+        .get<ProductWithFiles[]>(`product-category/${parent.id}`)
         .then((res) => {
           setProducts((current) => [...current, ...res.data]);
         })
@@ -55,7 +55,8 @@ export function ProductContextProvider({
 
   return (
     <ProductContext.Provider
-      value={{ products, handleSearch, handleClear, currentCategoryID }}>
+      value={{ products, handleSearch, handleClear, currentCategoryID }}
+    >
       {children}
     </ProductContext.Provider>
   );

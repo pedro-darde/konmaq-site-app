@@ -24,7 +24,7 @@ import { red } from "@mui/material/colors";
 import { useState } from "react";
 import colors from "../constants/colors";
 import { useCart } from "../hooks/useCart";
-import { ProductAdded } from "../interfaces/Product";
+import { ProductAdded, ProductWithFiles } from "../interfaces/Product";
 import { Category, CategoryPage } from "../interfaces/Category";
 import ListCategory from "./category/pages/ListCategory";
 import ListProducts from "./product/ListProducts";
@@ -47,7 +47,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 type OpenPageProps = {
-  product: { releases: ProductAdded[]; popular: ProductAdded[] };
+  product: { releases: ProductWithFiles[]; popular: ProductWithFiles[] };
   pageCategories: CategoryPage[];
   categories: Category[];
 };
@@ -79,22 +79,24 @@ export default function OpenPageComponent({
         justifyContent: "flex-start",
         width: "100%",
         height: "100%",
-      }}>
+      }}
+    >
+      <div>
+        <ChipCategoryFilter categories={categories} />
+      </div>
       <Grid container spacing={2}>
-        <div>
-          
-          <ChipCategoryFilter categories={categories} />
-        </div>
         <Grid item xs={2}>
           <div
             style={{
               backgroundColor: colors.header_color,
               padding: 10,
               borderRadius: 10,
-            }}>
+            }}
+          >
             <Typography
               variant="h5"
-              sx={{ maxWidth: 350, textAlign: "center", color: "white" }}>
+              sx={{ maxWidth: 350, textAlign: "center", color: "white" }}
+            >
               Categorias
             </Typography>
           </div>
@@ -110,29 +112,17 @@ export default function OpenPageComponent({
         </Grid>
         {products.length ? (
           <Grid item xs={10}>
-            <div
-              style={{
-                backgroundColor: colors.header_color,
-                padding: 10,
-                borderRadius: 10,
-                flex: 1,
-                alignItems: "center",
-                marginBottom: "0.25rem",
-              }}>
-              <Typography
-                variant="h5"
-                sx={{ textAlign: "center", color: "white" }}>
-                Produtos
-              </Typography>
-            </div>
-            <ListProducts products={products} />
+            <Grid container spacing={2}>
+              <ListProducts products={products} />
+            </Grid>
           </Grid>
         ) : (
           <>
             <Grid item xs={4}>
               <Typography
                 variant="h5"
-                sx={{ maxWidth: 350, textAlign: "center" }}>
+                sx={{ maxWidth: 350, textAlign: "center" }}
+              >
                 Lancamentos
               </Typography>
               {product.releases.map((product, _) => (
@@ -142,7 +132,8 @@ export default function OpenPageComponent({
                       product.discount > 0 && (
                         <Avatar
                           sx={{ bgcolor: colors.price_color, p: 3 }}
-                          aria-label="recipe">
+                          aria-label="recipe"
+                        >
                           {product.discount + "%"}
                         </Avatar>
                       )
@@ -173,7 +164,8 @@ export default function OpenPageComponent({
                     <Typography
                       variant="h5"
                       gutterBottom
-                      color={colors.price_color}>
+                      color={colors.price_color}
+                    >
                       {product.price.toLocaleString("pt-br", {
                         style: "currency",
                         currency: "BRL",
@@ -183,7 +175,8 @@ export default function OpenPageComponent({
                     <IconButton
                       onClick={() => {
                         add({ product, quantity: 1 });
-                      }}>
+                      }}
+                    >
                       <ShoppingCartCheckoutSharp color="primary" />
                     </IconButton>
 
@@ -191,14 +184,16 @@ export default function OpenPageComponent({
                       expand={expandedRelease}
                       onClick={() => {
                         handleExpandClickRelease(_);
-                      }}>
+                      }}
+                    >
                       <ExpandMoreOutlined />
                     </ExpandMore>
                   </CardActions>
                   <Collapse
                     in={_ === selectedIndexRelease && expandedRelease}
                     timeout="auto"
-                    unmountOnExit>
+                    unmountOnExit
+                  >
                     <CardContent>
                       <Typography paragraph> Peso: {product.weight}</Typography>
                       <Typography paragraph>
@@ -217,7 +212,8 @@ export default function OpenPageComponent({
             <Grid item xs={6}>
               <Typography
                 variant="h5"
-                sx={{ maxWidth: 350, textAlign: "center" }}>
+                sx={{ maxWidth: 350, textAlign: "center" }}
+              >
                 Destaques
               </Typography>
               <Grid container spacing={2}>
@@ -229,7 +225,8 @@ export default function OpenPageComponent({
                           p.discount > 0 && (
                             <Avatar
                               sx={{ bgcolor: red[500] }}
-                              aria-label="recipe">
+                              aria-label="recipe"
+                            >
                               {p.discount + "%"}
                             </Avatar>
                           )
@@ -258,7 +255,8 @@ export default function OpenPageComponent({
                         <Typography
                           variant="h5"
                           gutterBottom
-                          color={colors.price_color}>
+                          color={colors.price_color}
+                        >
                           {p.price.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL",
@@ -268,7 +266,8 @@ export default function OpenPageComponent({
                         <IconButton
                           onClick={() => {
                             add({ product: p, quantity: 1 });
-                          }}>
+                          }}
+                        >
                           <ShoppingCartCheckoutSharp color="primary" />
                         </IconButton>
 
@@ -276,14 +275,16 @@ export default function OpenPageComponent({
                           expand={expandedPopuplar}
                           onClick={() => {
                             handleExpandClickPopular(_);
-                          }}>
+                          }}
+                        >
                           <ExpandMoreOutlined />
                         </ExpandMore>
                       </CardActions>
                       <Collapse
                         in={_ === selectedIndexPopuplar && expandedPopuplar}
                         timeout="auto"
-                        unmountOnExit>
+                        unmountOnExit
+                      >
                         <CardContent>
                           <Typography paragraph> Peso: {p.weight}</Typography>
                           <Typography paragraph>Altura: {p.height}</Typography>
