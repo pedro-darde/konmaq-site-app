@@ -83,15 +83,13 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                 gridTemplateColumns: "repeat(4, 1fr)",
               }}>
               <Item>
-                <Typography variant="inherit">
-                  {product.description}
-                </Typography>
+                <Typography variant="inherit">{product.description}</Typography>
               </Item>
               <Item sx={{ flexGrow: 1 }}>
                 <FormControl fullWidth>
                   <InputLabel> Quantidade </InputLabel>
                   <Select
-                      variant={"standard"}
+                    variant={"standard"}
                     value={quantity}
                     onChange={(event) => {
                       changeQuantity(
@@ -162,11 +160,12 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
           {!isOrderScreen && (
             <Button
               endIcon={<ShoppingCartCheckout />}
+              disabled={products.length === 0}
               variant="contained"
               onClick={() => {
                 router.push("/order");
               }}>
-              Finalizar pedido{" "}
+              Finalizar pedido
             </Button>
           )}
         </Item>
