@@ -17,14 +17,16 @@ export default function ChipCategoryFilter({
     <div>
       <Typography
         variant="subtitle1"
-        sx={{ maxWidth: 350, textAlign: "start" }}>
+        sx={{ maxWidth: 350, textAlign: "start" }}
+      >
         Busca rapida
         <Tooltip
           title={
             products.length
               ? "Os produtos estão filtrados"
               : "Selecione uma categoria abaixo para filtrar os produtos"
-          }>
+          }
+        >
           <IconButton>
             {products.length ? <FilterList /> : <FilterListOff />}
           </IconButton>
@@ -45,15 +47,17 @@ export default function ChipCategoryFilter({
           bgcolor: colors.header_color,
           borderRadius: 1,
           overflowY: "auto",
-          width: '100%'
-        }}>
+          width: "100%",
+        }}
+      >
         {categories.map(({ name, id }) => (
-          <>
+          <div key={id}>
             <IconButton
               key={id}
               onClick={() => {
                 handleSearch(id as number, null);
-              }}>
+              }}
+            >
               <Chip
                 label={name}
                 sx={{
@@ -63,7 +67,7 @@ export default function ChipCategoryFilter({
                 }}
               />
             </IconButton>
-          </>
+          </div>
         ))}
       </Box>
     </div>

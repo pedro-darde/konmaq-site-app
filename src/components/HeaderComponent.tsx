@@ -117,6 +117,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };

@@ -7,7 +7,7 @@ export default function useAlert() {
     MySwal.fire({
       title: "Ocorreu um erro no cadastro",
       html: Array.isArray(errors)
-        ? errors.map<string>((error) => error + "</br>").toString()
+        ? errors.map<string>((error) => error).join("</br>")
         : errors,
       showCancelButton: true,
       cancelButtonText: "OK",

@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { BoxProps } from "@mui/system";
 import { useRouter } from "next/router";
+import { getProductPrice } from "../../helpers/ProductHelper";
 import { useCart } from "../../hooks/useCart";
 
 function Item(props: BoxProps) {
@@ -38,19 +39,6 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
     minimumFractionDigits: 2,
     style: "currency",
     currency: "BRL",
-  };
-
-  const getProductPrice = (
-    price: number,
-    discount: number,
-    promotion: number,
-    quantity: number
-  ) => {
-    if (discount === 0 && promotion === 0) return price * quantity;
-    if (promotion > 0) return promotion * quantity;
-    const percent = discount / 100;
-    const discountValue = price * percent;
-    return (price - discountValue) * quantity;
   };
 
   const getAllProductPrices = () => {
@@ -81,7 +69,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                 display: "grid",
                 alignItems: "center",
                 gridTemplateColumns: "repeat(4, 1fr)",
-              }}>
+              }}
+            >
               <Item>
                 <Typography variant="inherit">{product.description}</Typography>
               </Item>
@@ -96,7 +85,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                         parseInt(product.id.toString()),
                         parseInt(event.target.value.toString())
                       );
-                    }}>
+                    }}
+                  >
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
                       (qtd, idx) => {
                         return (
@@ -124,7 +114,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                   id="remove-item"
                   onClick={() => {
                     removeItem(parseInt(product.id.toString()));
-                  }}>
+                  }}
+                >
                   <Delete color="error" />
                 </IconButton>
               </Item>
@@ -137,7 +128,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
           <p style={{ fontSize: "12px" }}>
             <p style={{ fontWeight: "bold" }}> Subtotal: </p>
@@ -155,7 +147,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
           {!isOrderScreen && (
             <Button
@@ -164,7 +157,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
               variant="contained"
               onClick={() => {
                 router.push("/order");
-              }}>
+              }}
+            >
               Finalizar pedido
             </Button>
           )}

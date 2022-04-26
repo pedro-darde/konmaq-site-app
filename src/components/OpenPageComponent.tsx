@@ -47,7 +47,7 @@ export default function OpenPageComponent({
         </Grid>
         {products.length ? (
           <Grid item xs={10}>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               <ListProducts products={products} />
             </Grid>
           </Grid>

@@ -86,10 +86,6 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
     return v.replace(/(\d{5})(\d{3})/, "$1-$2");
   };
 
-  const preValidate = () => {
-    const requiredFields = [""];
-  };
-
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     treatUserInfo();
@@ -111,9 +107,6 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
 
   const treatUserInfo = () => {
     switch (user.isento) {
-      case 1:
-        handleChangeState("isento", false);
-        break;
       case 2:
         handleChangeState("isento", true);
         break;
@@ -175,7 +168,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
             <Grid item xs={4}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Isento </InputLabel>
                 <Select
                   label="Isento"
@@ -185,7 +179,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                   }}
                   color="success"
                   disabled={user.document.toString().length < 15}
-                  required={user.document.toString().length > 15}>
+                  required={user.document.toString().length > 15}
+                >
                   {isentoOptions.map((value, key) => {
                     return (
                       <MenuItem value={value.value} key={key}>
@@ -232,7 +227,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
             <Grid item xs={4}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Estado </InputLabel>
                 <Select
                   label="Estado"
@@ -243,7 +239,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                   onChange={(e) => {
                     handleChangeState("country", e.target.value);
                     handleChangeSelectState(e.target.value as number);
-                  }}>
+                  }}
+                >
                   {Object.keys(estadoOptions).map((value, key) => {
                     return (
                       <MenuItem value={value} key={key}>
@@ -258,7 +255,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
             <Grid item xs={4}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Cidade </InputLabel>
                 <Select
                   label="Cidade"
@@ -268,7 +266,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                     handleChangeState("city", e.target.value);
                   }}
                   color="success"
-                  required>
+                  required
+                >
                   {municipios.map((value, key) => {
                     return (
                       <MenuItem value={value.cod_municipio} key={key}>
@@ -386,7 +385,8 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                     <IconButton
                       onClick={(e) =>
                         setShowRepeatPassword(!showRepeatPassword)
-                      }>
+                      }
+                    >
                       {showRepeatPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   ),

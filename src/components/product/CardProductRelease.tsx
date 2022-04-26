@@ -1,5 +1,6 @@
 import {
   ExpandMoreOutlined,
+  InfoOutlined,
   ShoppingCartCheckoutSharp,
 } from "@mui/icons-material";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import colors from "../../constants/colors";
+import { priceWrappedWithLocaleString } from "../../helpers/ProductHelper";
 import { useCart } from "../../hooks/useCart";
 import { ProductWithFiles } from "../../interfaces/Product";
 
@@ -52,9 +54,17 @@ export default function CardProductRelease({
           product.discount > 0 && (
             <Avatar
               sx={{ bgcolor: colors.price_color, p: 3 }}
-              aria-label="recipe">
+              aria-label="recipe"
+            >
               {product.discount + "%"}
             </Avatar>
+          )
+        }
+        action={
+          product.promotion > 0 && (
+            <IconButton aria-label="settings">
+              <InfoOutlined />
+            </IconButton>
           )
         }
         title={product.title}
@@ -81,16 +91,19 @@ export default function CardProductRelease({
       </CardContent>
       <CardActions disableSpacing>
         <Typography variant="h5" gutterBottom color={colors.price_color}>
-          {product.price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          })}
+          {priceWrappedWithLocaleString(
+            parseFloat(product.price.toString()),
+            parseFloat(product.discount?.toString()),
+            parseFloat(product.promotion?.toString()),
+            1
+          )}
         </Typography>
 
         <IconButton
           onClick={() => {
             add({ product, quantity: 1 });
-          }}>
+          }}
+        >
           <ShoppingCartCheckoutSharp color="primary" />
         </IconButton>
 

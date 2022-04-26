@@ -20,6 +20,7 @@ import { useState } from "react";
 import colors from "../../constants/colors";
 import { useCart } from "../../hooks/useCart";
 import { red } from "@mui/material/colors";
+import { priceWrappedWithLocaleString } from "../../helpers/ProductHelper";
 type CardProductPopularProps = {
   product: ProductWithFiles;
 };
@@ -77,16 +78,19 @@ export default function CardProductPopular({
       </CardContent>
       <CardActions disableSpacing>
         <Typography variant="h5" gutterBottom color={colors.price_color}>
-          {product.price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-          })}
+          {priceWrappedWithLocaleString(
+            parseFloat(product.price.toString()),
+            parseFloat(product.discount?.toString()),
+            parseFloat(product.promotion?.toString()),
+            1
+          )}
         </Typography>
 
         <IconButton
           onClick={() => {
             add({ product: product, quantity: 1 });
-          }}>
+          }}
+        >
           <ShoppingCartCheckoutSharp color="primary" />
         </IconButton>
 

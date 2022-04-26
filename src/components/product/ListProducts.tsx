@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
 import ProductImageListShow from "./ProductImageListShow";
+import { priceWrappedWithLocaleString } from "../../helpers/ProductHelper";
 
 type ListProductsProps = {
   products: ProductWithFiles[];
@@ -45,10 +46,9 @@ type IsOpen = {
   [key: number]: boolean;
 };
 
-
 export default function ListProducts({ products }: ListProductsProps) {
   const [open, setOpen] = useState<IsOpen>({} as IsOpen);
-  
+
   const handleOpen = (key: number) => {
     setOpen((current) => {
       let newOpen = Object.assign({}, current);
@@ -56,7 +56,7 @@ export default function ListProducts({ products }: ListProductsProps) {
       return newOpen;
     });
   };
-  
+
   const { add } = useCart();
   return (
     <>
@@ -105,10 +105,12 @@ export default function ListProducts({ products }: ListProductsProps) {
                   gutterBottom
                   color={colors.price_color}
                 >
-                  {product.price.toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
+                  {priceWrappedWithLocaleString(
+                    parseFloat(product.price.toString()),
+                    parseFloat(product.discount.toString()),
+                    parseFloat(product.promotion.toString()),
+                    1
+                  )}
                 </Typography>
 
                 <IconButton

@@ -5,8 +5,7 @@ export default function CreateOrder() {
     <Container maxWidth="xl">
       <ProductCartShow isOrderScreen={true} />
       <Button variant="contained" className="checkout-button">
-        {" "}
-        Realizar checkout{" "}
+        Realizar checkout
       </Button>
     </Container>
   );
