@@ -16,7 +16,7 @@ export default function ProductImageListShow({
     <div>
       <Image
         placeholder="blur"
-        blurDataURL={BlurImage}
+        blurDataURL={"blur.jpg"}
         onLoad={() => setLoading(false)}
         src={files[0].path}
         layout="responsive"

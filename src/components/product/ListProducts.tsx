@@ -41,13 +41,22 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+type IsOpen = {
+  [key: number]: boolean;
+};
+
+
 export default function ListProducts({ products }: ListProductsProps) {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleOpen = () => {
-    setOpen(!open);
+  const [open, setOpen] = useState<IsOpen>({} as IsOpen);
+  
+  const handleOpen = (key: number) => {
+    setOpen((current) => {
+      let newOpen = Object.assign({}, current);
+      newOpen[key] = current[key] ? false : true;
+      return newOpen;
+    });
   };
-
+  
   const { add } = useCart();
   return (
     <>
@@ -110,11 +119,17 @@ export default function ListProducts({ products }: ListProductsProps) {
                   <ShoppingCartCheckoutSharp color="primary" />
                 </IconButton>
 
-                <ExpandMore expand={open} onClick={handleOpen}>
+                <ExpandMore
+                  key={key}
+                  expand={open[key]}
+                  onClick={() => {
+                    handleOpen(key);
+                  }}
+                >
                   <ExpandMoreOutlined />
                 </ExpandMore>
               </CardActions>
-              <Collapse in={open} timeout="auto" unmountOnExit>
+              <Collapse in={open[key]} timeout="auto" unmountOnExit key={key}>
                 <CardContent>
                   <Typography paragraph> Peso: {product.weight}</Typography>
                   <Typography paragraph> Altura: {product.height}</Typography>

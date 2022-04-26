@@ -7,14 +7,20 @@ import { AddedSupplier } from "../../../interfaces/Supplier";
 import { Product } from "../../../interfaces/Product";
 import { baseService } from "../../../services/api";
 import useAlert from "../../../hooks/useAlert";
+import { useState } from "react";
+import FetchLoadingComponent from "../../../components/loaders/FetchLoadingComponent";
 
 export default function Create() {
   const { toast } = useAlert();
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { data: categories, error } = useSWR<Category[], any>(
     "category",
     async (url) => {
+      setLoading(true);
       const response = await baseService.get<Category[]>(url);
       return response.data;
+      setLoading(false);
     }
   );
 
@@ -22,17 +28,19 @@ export default function Create() {
     AddedSupplier[],
     any
   >("supplier", async (url) => {
+    setLoading(true);
     const response = await baseService.get<AddedSupplier[]>(url);
+    setLoading(false);
     return response.data;
   });
 
   const handleSubmit = (product: Product, files: File[]) => {
+    setLoading(true);
     const formData = new FormData();
-    
-    Object.keys(product).forEach(key => {
+    Object.keys(product).forEach((key) => {
       /* @ts-ignore */
-      if(!product[key]) delete product[key]
-    })
+      if (!product[key]) delete product[key];
+    });
 
     formData.append("product", JSON.stringify(product));
     files.forEach((file) => {
@@ -44,10 +52,11 @@ export default function Create() {
       })
       .then((res) => {
         console.log(res.data);
+        setLoading(false);
         toast("Produto criado com sucesso");
       })
       .catch((err) => {
-        
+        setLoading(false);
         console.log(err);
       });
   };
@@ -60,6 +69,7 @@ export default function Create() {
         handleSubmit={handleSubmit}
         suppliers={suppliers!}
       />
+      <FetchLoadingComponent isLoading={loading} />
     </Container>
   );
 }

@@ -19,6 +19,7 @@ export default function useAlert() {
   function toast(message = "Sucesso") {
     MySwal.fire({
       toast: true,
+      position: "top-end",
       icon: "success",
       html: message,
       timer: 1750,
