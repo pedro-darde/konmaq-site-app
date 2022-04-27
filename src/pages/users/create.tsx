@@ -5,6 +5,8 @@ import FormUserComponent from "../../components/user/FormUserComponent";
 import { User, UserAdd } from "../../interfaces/User";
 import { baseService } from "../../services/api";
 import useAlert from "../../hooks/useAlert";
+import Head from "next/head";
+import BaseComponent from "../../components/BaseComponent";
 
 export default function Create() {
   const router = useRouter();
@@ -15,18 +17,18 @@ export default function Create() {
       .then((res) => {
         router.push(`/users/${res.data.id}`);
       })
-      .catch((err) => {
-      
-      });
+      .catch((err) => {});
   };
   return (
-    <Container maxWidth="xl">
-      <TitleComponent title="Criar usuário" />
-      <FormUserComponent
-        handleSubmit={(user) => {
-          addUser(user);
-        }}
-      />
-    </Container>
+    <BaseComponent title="Adicionar produto">
+      <Container maxWidth="xl">
+        <TitleComponent title="Criar usuário" />
+        <FormUserComponent
+          handleSubmit={(user) => {
+            addUser(user);
+          }}
+        />
+      </Container>
+    </BaseComponent>
   );
 }

@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
 import useSWR from "swr";
+import BaseComponent from "../../../components/BaseComponent";
 import FormCategory from "../../../components/category/admin/FormCategory";
 import TitleComponent from "../../../components/TitleComponent";
 import { Category } from "../../../interfaces/Category";
@@ -31,9 +32,11 @@ export default function Create() {
   );
 
   return (
-    <Container maxWidth="xl">
-      <TitleComponent title="Criar categoria" />
-      <FormCategory handleSubmit={addCategory} categories={categories} />
-    </Container>
+    <BaseComponent title="Criar categoria">
+      <Container maxWidth="xl">
+        <TitleComponent title="Criar categoria" />
+        <FormCategory handleSubmit={addCategory} categories={categories} />
+      </Container>
+    </BaseComponent>
   );
 }

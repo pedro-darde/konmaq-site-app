@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+import BaseComponent from "../../../components/BaseComponent";
 import TitleComponent from "../../../components/TitleComponent";
 import FormUserComponentEdit from "../../../components/user/FormUserComponentEdit";
 import { UserAdd } from "../../../interfaces/User";
@@ -7,10 +8,9 @@ type UserInfoProps = {
   data: UserAdd;
 };
 export default function UserInformation({ data }: UserInfoProps) {
-  
   const handleSubmit = (user: UserAdd) => {
     baseService
-      .patch<{user: UserAdd}, any>("user", user.id.toString(), { user })
+      .patch<{ user: UserAdd }, any>("user", user.id.toString(), { user })
       .then((res) => {
         console.log(res.data);
       })
@@ -18,13 +18,12 @@ export default function UserInformation({ data }: UserInfoProps) {
   };
 
   return data ? (
-    <Container maxWidth="xl">
-      <TitleComponent title="Editar usuário" />
-      <FormUserComponentEdit
-        userAdd={data}
-        handleSubmit={handleSubmit}
-      />
-    </Container>
+    <BaseComponent title="Editar usuário">
+      <Container maxWidth="xl">
+        <TitleComponent title="Editar usuário" />
+        <FormUserComponentEdit userAdd={data} handleSubmit={handleSubmit} />
+      </Container>
+    </BaseComponent>
   ) : (
     <p> carregando </p>
   );

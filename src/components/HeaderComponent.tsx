@@ -169,8 +169,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
         <ProductCartShow isOrderScreen={false} />
       </Menu>
     );
@@ -193,15 +192,13 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
             sx={{
               marginRight: "36px",
               ...(open && { display: "none" }),
-            }}
-          >
+            }}>
             <MenuIcon />
           </IconButton>
           <IconButton
             onClick={() => {
               router.push("/");
-            }}
-          >
+            }}>
             <Image src={LogoImage} height={50} width={150} alt="Logo do site" />
           </IconButton>
           <Box sx={{ marginLeft: "auto" }}>
@@ -210,23 +207,28 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
               sx={{ marginRight: "1rem", color: "white" }}
               onClick={() => {
                 router.push("/users/create");
-              }}
-            >
+              }}>
               Cadastrar-se
             </Button>
-            <Button startIcon={<Login />} sx={{ color: "white" }}>
-              Ja sou usuario{" "}
+            <Button
+              startIcon={<Login />}
+              sx={{ color: "white" }}
+              onClick={() => router.push("/login")}>
+              Já sou usuário
             </Button>
             <MenuCart />
             <IconButton
+              disabled={products.length === 0}
               sx={{ ml: 1 }}
               onClick={handleClick}
               aria-controls={openAnchor ? "cart-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={openAnchor ? "true" : undefined}
-            >
+              aria-expanded={openAnchor ? "true" : undefined}>
               <Badge color="primary" badgeContent={products.length}>
-                <ShoppingCartRounded color="primary" fontSize="large" />
+                <ShoppingCartRounded
+                  color={products.length === 0 ? "disabled" : "primary"}
+                  fontSize="large"
+                />
               </Badge>
             </IconButton>
           </Box>

@@ -5,6 +5,7 @@ import { ProductAdded } from "../../../interfaces/Product";
 import { AddedSupplier } from "../../../interfaces/Supplier";
 import { baseService } from "../../../services/api";
 import { Category } from "../../../interfaces/Category";
+import BaseComponent from "../../../components/BaseComponent";
 
 type ProductInfoProps = {
   product: ProductAdded;
@@ -28,22 +29,26 @@ export default function ProductInformation({
   };
 
   return (
-    <Container maxWidth={"xl"}>
-      <TitleComponent title="Editar Produto" />
-      <FormProductEdit
-        productEdit={product}
-        handleSubmit={handleSubmit}
-        categories={categories}
-        suppliers={suppliers}
-      />
-    </Container>
+    <BaseComponent title="Editar produto">
+      <Container maxWidth={"xl"}>
+        <TitleComponent title="Editar Produto" />
+        <FormProductEdit
+          productEdit={product}
+          handleSubmit={handleSubmit}
+          categories={categories}
+          suppliers={suppliers}
+        />
+      </Container>
+    </BaseComponent>
   );
 }
 
 export async function getServerSideProps({ query }: any) {
   console.log("aqui 1");
-  console.log(query)
-  const dataProduct = await baseService.get<ProductAdded>("product/" + query.slug);
+  console.log(query);
+  const dataProduct = await baseService.get<ProductAdded>(
+    "product/" + query.slug
+  );
   const dataCategories = await baseService.get<Category[]>("category");
   const dataSuppliers = await baseService.get<AddedSupplier[]>("supplier");
 

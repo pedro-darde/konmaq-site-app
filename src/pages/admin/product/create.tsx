@@ -9,6 +9,7 @@ import { baseService } from "../../../services/api";
 import useAlert from "../../../hooks/useAlert";
 import { useState } from "react";
 import FetchLoadingComponent from "../../../components/loaders/FetchLoadingComponent";
+import BaseComponent from "../../../components/BaseComponent";
 
 export default function Create() {
   const { toast } = useAlert();
@@ -19,8 +20,8 @@ export default function Create() {
     async (url) => {
       setLoading(true);
       const response = await baseService.get<Category[]>(url);
-      return response.data;
       setLoading(false);
+      return response.data;
     }
   );
 
@@ -62,14 +63,16 @@ export default function Create() {
   };
 
   return (
-    <Container maxWidth="xl">
-      <TitleComponent title="Criar Produto" />
-      <FormProduct
-        categories={categories!}
-        handleSubmit={handleSubmit}
-        suppliers={suppliers!}
-      />
-      <FetchLoadingComponent isLoading={loading} />
-    </Container>
+    <BaseComponent title="Adicionar produto">
+      <Container maxWidth="xl">
+        <TitleComponent title="Criar Produto" />
+        <FormProduct
+          categories={categories!}
+          handleSubmit={handleSubmit}
+          suppliers={suppliers!}
+        />
+        <FetchLoadingComponent isLoading={loading} />
+      </Container>
+    </BaseComponent>
   );
 }

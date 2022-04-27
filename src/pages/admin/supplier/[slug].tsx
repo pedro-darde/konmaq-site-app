@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+import BaseComponent from "../../../components/BaseComponent";
 import FormSupplierEditComponent from "../../../components/supplier/FormSupplierEdit";
 import TitleComponent from "../../../components/TitleComponent";
 import { AddedSupplier } from "../../../interfaces/Supplier";
@@ -25,13 +26,15 @@ export default function SupplierInformation({
       .catch((err) => {});
   };
   return (
-    <Container maxWidth="xl">
-      <TitleComponent title="Editar fornecedor" />
-      <FormSupplierEditComponent
-        supplierAdd={supplier}
-        handleSubmit={handleSubmit}
-      />
-    </Container>
+    <BaseComponent title="Editar fornecedor">
+      <Container maxWidth="xl">
+        <TitleComponent title="Editar fornecedor" />
+        <FormSupplierEditComponent
+          supplierAdd={supplier}
+          handleSubmit={handleSubmit}
+        />
+      </Container>
+    </BaseComponent>
   );
 }
 
