@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { ProductAdded } from "../interfaces/Product";
 import { KONMAP_PRODUCTS_KEY, storage } from "../services/konmaq_storage";
+import useAlert from "./useAlert";
 
 export type ProductCart = {
   product: ProductAdded;
@@ -25,7 +26,7 @@ type CartContextProviderProps = {
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [productsCart, setProductsCart] = useState<ProductCart[]>([]);
-
+  const alert = useAlert();
   const load = (): void => {
     const products = storage.get<ProductCart[]>(KONMAP_PRODUCTS_KEY);
     if (products && products.length > 0) {
@@ -52,6 +53,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
     setProductsCart(newProducts);
     storage.set(KONMAP_PRODUCTS_KEY, JSON.stringify(newProducts));
+    alert.toast("Item adicionado", false, 1250, "bottom-right");
   };
 
   const changeQuantity = (id: number, quantity: number): void => {

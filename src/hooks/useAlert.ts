@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import Swal, { SweetAlertPosition } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 export default function useAlert() {
   const MySwal = withReactContent(Swal);
@@ -16,13 +16,22 @@ export default function useAlert() {
     });
   }
 
-  function toast(message = "Sucesso") {
+  function toast(
+    message = "Sucesso",
+    showConfirmButton = false,
+    time = 1750,
+    position: SweetAlertPosition = "top-end"
+  ) {
     MySwal.fire({
+      showConfirmButton: showConfirmButton,
       toast: true,
-      position: "top-end",
+      position: position,
       icon: "success",
+      background: '#a5dc86',
+      color: 'white',
+      iconColor: 'white',
       html: message,
-      timer: 1750,
+      timer: time,
     });
   }
 

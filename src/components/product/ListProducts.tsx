@@ -107,8 +107,8 @@ export default function ListProducts({ products }: ListProductsProps) {
                 >
                   {priceWrappedWithLocaleString(
                     parseFloat(product.price.toString()),
-                    parseFloat(product.discount.toString()),
-                    parseFloat(product.promotion.toString()),
+                    parseFloat(product.discount?.toString()),
+                    parseFloat(product.promotion?.toString()),
                     1
                   )}
                 </Typography>

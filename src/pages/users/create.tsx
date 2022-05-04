@@ -10,7 +10,6 @@ import BaseComponent from "../../components/BaseComponent";
 
 export default function Create() {
   const router = useRouter();
-  const MyAlert = useAlert();
   const addUser = (user: User) => {
     baseService
       .post<{ user: User }, UserAdd>("user", { user })
