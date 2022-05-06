@@ -20,6 +20,7 @@ const theme = createTheme();
 
 type SignInProps = {
   handleSubmit: (email: string, password: string) => void;
+  csrfToken: string;
 };
 export default function SignIn({ handleSubmit }: SignInProps) {
   const [email, setEmail] = useState<string>("");
@@ -42,13 +43,7 @@ export default function SignIn({ handleSubmit }: SignInProps) {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box
-            component="form"
-            onSubmit={() => {
-              handleSubmit(email, password);
-            }}
-            noValidate
-            sx={{ mt: 1 }}>
+          <Box component="div" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               inputProps={{
@@ -85,6 +80,9 @@ export default function SignIn({ handleSubmit }: SignInProps) {
             />
 
             <Button
+              onClick={() => {
+                handleSubmit(email, password);
+              }}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, bgcolor: colors.primary_color }}>

@@ -20,7 +20,7 @@ export default function useAlert() {
     message = "Sucesso",
     showConfirmButton = false,
     time = 1750,
-    position: SweetAlertPosition = "top-end"
+    position: SweetAlertPosition = "bottom-end"
   ) {
     MySwal.fire({
       showConfirmButton: showConfirmButton,

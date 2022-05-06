@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
 import HeaderComponent from "../components/HeaderComponent";
@@ -6,15 +7,17 @@ import { ProductContextProvider } from "../hooks/useProducts";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <CartContextProvider>
-      <ProductContextProvider>
-        <div>
-          <main>
-            <HeaderComponent childComponent={<Component {...pageProps} />} />
-          </main>
-        </div>
-      </ProductContextProvider>
-    </CartContextProvider>
+    <SessionProvider session={pageProps.session}>
+      <CartContextProvider>
+        <ProductContextProvider>
+          <div>
+            <main>
+              <HeaderComponent childComponent={<Component {...pageProps} />} />
+            </main>
+          </div>
+        </ProductContextProvider>
+      </CartContextProvider>
+    </SessionProvider>
   );
 }
 

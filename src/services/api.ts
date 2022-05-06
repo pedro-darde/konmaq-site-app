@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import { getSession } from "next-auth/react";
 import useAlert from "../hooks/useAlert";
 
 export type PrimitiveDate<Type> = {
@@ -23,8 +24,11 @@ class BaseService {
     });
 
     this.axiosClient.interceptors.request.use(
-      (request) => {
-        console.log(request.url)
+      async (request) => {
+        const session = await getSession()
+        console.log(session)
+        /** @ts-ignore */
+        // request.headers['x-access-toen'] = session?.accessToken
         return Promise.resolve(request)
       },
       (error) => {

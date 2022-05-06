@@ -10,7 +10,6 @@ export default function Create() {
   const addCategory = (category: Partial<Category>) => {
     delete category["id"];
     if (category.category === "") delete category["category"];
-
     baseService
       .post<{ category: Partial<Category> }, { data: any }>("category", {
         category,
