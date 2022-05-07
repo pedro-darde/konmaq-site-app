@@ -8,14 +8,12 @@ export default function Login({ csrfToken }: any) {
   const router = useRouter();
   const alert = useAlert();
 
-  const handleLogin = (email: string, password: string) => {
-    signIn("credentials", { username: email, password, callbackUrl: "/" })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleLogin = async (email: string, password: string) => {
+    await signIn("credentials", {
+      username: email,
+      password,
+      callbackUrl: "/",
+    });
   };
 
   useEffect(() => {

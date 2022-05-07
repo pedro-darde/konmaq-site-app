@@ -7,7 +7,7 @@ import { ProductContextProvider } from "../hooks/useProducts";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider session={pageProps.session} refetchInterval={0}>
       <CartContextProvider>
         <ProductContextProvider>
           <div>
