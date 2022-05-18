@@ -1,12 +1,13 @@
 import { Container } from "@mui/material";
 import useSWR from "swr";
+import AdminAuth from "../../../components/adminAuth";
 import BaseComponent from "../../../components/BaseComponent";
 import FormCategory from "../../../components/category/admin/FormCategory";
 import TitleComponent from "../../../components/TitleComponent";
 import { Category } from "../../../interfaces/Category";
 import { baseService } from "../../../services/api";
 
-export default function Create() {
+const Create = () => {
   const addCategory = (category: Partial<Category>) => {
     delete category["id"];
     if (category.category === "") delete category["category"];
@@ -38,4 +39,6 @@ export default function Create() {
       </Container>
     </BaseComponent>
   );
-}
+};
+
+export default AdminAuth(Create)

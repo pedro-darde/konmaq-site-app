@@ -1,6 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import colors from "../constants/colors";
 import { useCart } from "../hooks/useCart";
 import { ProductWithFiles } from "../interfaces/Product";
 import { Category, CategoryPage } from "../interfaces/Category";
@@ -10,7 +8,8 @@ import { useSearchProducts } from "../hooks/useProducts";
 import ChipCategoryFilter from "./filters/ChipCategoryFilter";
 import CardProductRelease from "./product/CardProductRelease";
 import CardProductPopular from "./product/CardProductPopular";
-import { getSession, useSession } from "next-auth/react";
+import { useAuth } from "../hooks/useAuth";
+import { useEffect } from "react";
 type OpenPageProps = {
   product: { releases: ProductWithFiles[]; popular: ProductWithFiles[] };
   pageCategories: CategoryPage[];
@@ -23,10 +22,7 @@ export default function OpenPageComponent({
 }: OpenPageProps) {
   const { add } = useCart();
   const { products, handleClear } = useSearchProducts();
-  const { data } = useSession();
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+
   return (
     <div
       style={{

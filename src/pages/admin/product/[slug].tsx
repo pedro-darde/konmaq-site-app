@@ -6,7 +6,9 @@ import { AddedSupplier } from "../../../interfaces/Supplier";
 import { baseService } from "../../../services/api";
 import { Category } from "../../../interfaces/Category";
 import BaseComponent from "../../../components/BaseComponent";
-
+import { useAuth } from "../../../hooks/useAuth";
+import { KONMAQ_TOKEN_KEY, storage } from "../../../services/konmaq_storage";
+import jwtDecode from "jwt-decode";
 type ProductInfoProps = {
   product: ProductAdded;
   categories: Category[];
@@ -44,13 +46,25 @@ export default function ProductInformation({
 }
 
 export async function getServerSideProps({ query }: any) {
-  console.log("aqui 1");
-  console.log(query);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dataProduct = await baseService.get<ProductAdded>(
     "product/" + query.slug
   );
   const dataCategories = await baseService.get<Category[]>("category");
   const dataSuppliers = await baseService.get<AddedSupplier[]>("supplier");
+
+  const { role } = jwtDecode<{ role: string; id: number }>(
+    storage.get(KONMAQ_TOKEN_KEY, false)
+  );
+
+  if (role !== "admin") {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/unauthorized",
+      },
+    };
+  }
 
   return {
     props: {

@@ -62,15 +62,14 @@ export default function ListProducts({ products }: ListProductsProps) {
     <>
       {products.map((product, key) => {
         return (
-          <Grid item xs={4} md={4}>
+          <Grid item columns={{ xs: 6, sm: 6, md: 4, lg: 4, xl: 4 }} key={key}>
             <Card key={key} sx={{ maxWidth: 350, marginBottom: "1em" }}>
               <CardHeader
                 avatar={
                   product.discount > 0 && (
                     <Avatar
                       sx={{ bgcolor: colors.price_color, p: 3 }}
-                      aria-label="recipe"
-                    >
+                      aria-label="recipe">
                       {product.discount + "%"}
                     </Avatar>
                   )
@@ -103,8 +102,7 @@ export default function ListProducts({ products }: ListProductsProps) {
                 <Typography
                   variant="h5"
                   gutterBottom
-                  color={colors.price_color}
-                >
+                  color={colors.price_color}>
                   {priceWrappedWithLocaleString(
                     parseFloat(product.price.toString()),
                     parseFloat(product.discount?.toString()),
@@ -116,8 +114,7 @@ export default function ListProducts({ products }: ListProductsProps) {
                 <IconButton
                   onClick={() => {
                     add({ product, quantity: 1 });
-                  }}
-                >
+                  }}>
                   <ShoppingCartCheckoutSharp color="primary" />
                 </IconButton>
 
@@ -126,8 +123,7 @@ export default function ListProducts({ products }: ListProductsProps) {
                   expand={open[key]}
                   onClick={() => {
                     handleOpen(key);
-                  }}
-                >
+                  }}>
                   <ExpandMoreOutlined />
                 </ExpandMore>
               </CardActions>

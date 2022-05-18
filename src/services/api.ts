@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
-import { getSession } from "next-auth/react";
 import useAlert from "../hooks/useAlert";
+import { KONMAQ_TOKEN_KEY, storage } from "./konmaq_storage";
 
 export type PrimitiveDate<Type> = {
   [Key in keyof Type]: Type[Key] extends Date ? string : Type[Key];
@@ -25,10 +25,10 @@ class BaseService {
 
     this.axiosClient.interceptors.request.use(
       async (request) => {
-        const session = await getSession()
-        console.log(session)
-        /** @ts-ignore */
-        // request.headers['x-access-toen'] = session?.accessToken
+        if (this.getToken()) {
+          /** @ts-ignore */
+          request.headers['x-access-token'] = "Bearer " + this.getToken()
+        }
         return Promise.resolve(request)
       },
       (error) => {
@@ -95,13 +95,10 @@ class BaseService {
     return this.axiosClient.delete(`${modelName}/${id}`, config);
   }
 
-  //   public async getToken() {
-  //     if (await AsyncStorage.getItem("userLogado")) {
-  //       let userLogado = await AsyncStorage.getItem("userLogado");
-  //       return JSON.parse(userLogado!);
-  //     }
-  //     return "";
-  //   }
+  public getToken() {
+    if (typeof window !== 'undefined') return storage.get(KONMAQ_TOKEN_KEY, false)
+    return null
+  }
 
   //   public async getUserLoggedId() {
   //     const user = await AsyncStorage.getItem("userLogado");

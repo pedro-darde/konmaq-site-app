@@ -4,11 +4,8 @@ import TitleComponent from "../../components/TitleComponent";
 import FormUserComponent from "../../components/user/FormUserComponent";
 import { User, UserAdd } from "../../interfaces/User";
 import { baseService } from "../../services/api";
-import useAlert from "../../hooks/useAlert";
-import Head from "next/head";
 import BaseComponent from "../../components/BaseComponent";
-
-export default function Create() {
+const Create = () => {
   const router = useRouter();
   const addUser = (user: User) => {
     baseService
@@ -30,4 +27,6 @@ export default function Create() {
       </Container>
     </BaseComponent>
   );
-}
+};
+
+export default Create;

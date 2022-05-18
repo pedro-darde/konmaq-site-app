@@ -1,13 +1,13 @@
-import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
 import HeaderComponent from "../components/HeaderComponent";
+import { AuthContextProvider } from "../hooks/useAuth";
 import { CartContextProvider } from "../hooks/useCart";
 import { ProductContextProvider } from "../hooks/useProducts";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session} refetchInterval={0}>
+    <AuthContextProvider>
       <CartContextProvider>
         <ProductContextProvider>
           <div>
@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </div>
         </ProductContextProvider>
       </CartContextProvider>
-    </SessionProvider>
+    </AuthContextProvider>
   );
 }
 
