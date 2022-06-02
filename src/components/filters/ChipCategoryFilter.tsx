@@ -19,7 +19,7 @@ export default function ChipCategoryFilter({
         variant="subtitle1"
         sx={{ maxWidth: 350, textAlign: "start" }}
       >
-        Busca rapida
+        Busca rápida
         <Tooltip
           title={
             products.length

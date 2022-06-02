@@ -7,6 +7,7 @@ import useAlert from "../../../hooks/useAlert";
 import BaseComponent from "../../../components/BaseComponent";
 export default function Create() {
   const { toast } = useAlert();
+  
   const addSupplier = (supplier: Supplier) => {
     console.log(supplier);
     baseService

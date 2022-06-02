@@ -13,12 +13,14 @@ import AdminAuth from "../../../components/adminAuth";
 const Create = () => {
   const alert = useAlert();
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   const handleSubmit = (paymentType: PaymentType) => {
     setLoading(true);
     baseService
       .post<{ paymentType: PaymentType }, any>("payment-type", { paymentType })
       .then((res) => {
         setLoading(false);
+        router.push(`${res.data.id}`);
         alert.toast("Forma de pagamento criada com sucesso.");
       })
       .catch((err) => {

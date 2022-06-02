@@ -15,6 +15,7 @@ import {
   Login,
   Person,
   PersonAdd,
+  PersonRemove,
   ShoppingBagOutlined,
   ShoppingCartCheckoutRounded,
   ShoppingCartRounded,

@@ -4,7 +4,7 @@ export default function CreateOrder() {
   return (
     <Container maxWidth="xl">
       <ProductCartShow isOrderScreen={true} />
-      <Button variant="contained" className="checkout-button">
+      <Button variant="contained" className="checkout-button" sx={{ float: 'right'}}>
         Realizar checkout
       </Button>
     </Container>

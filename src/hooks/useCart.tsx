@@ -88,8 +88,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         load,
         products: productsCart,
         removeItem,
-      }}
-    >
+      }}>
       {children}
     </CartContext.Provider>
   );

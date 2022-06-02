@@ -8,21 +8,23 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { PaymentType, PaymentTypeKeys } from "../../interfaces/PaymentType";
+import { baseService } from "../../services/api";
 
-type FormPaymentTypeProps = {
+type FormPaymentTypeEditProps = {
   handleSubmit(paymentType: PaymentType): void;
+  paymentTypeId: string;
 };
 
-export default function FormPaymentType({
+export default function FormPaymentTypeEdit({
   handleSubmit,
-}: FormPaymentTypeProps) {
-  const [paymentType, setPaymentType] = useState<PaymentType>({
-    active: true,
-    description: "",
-    id: undefined,
-  });
+  paymentTypeId,
+}: FormPaymentTypeEditProps) {
+  const [paymentType, setPaymentType] = useState<PaymentType>(
+    {} as PaymentType
+  );
 
   const handleChangeState = (key: PaymentTypeKeys, value: any) => {
     setPaymentType((current) => {
@@ -31,6 +33,18 @@ export default function FormPaymentType({
       return newPaymentType;
     });
   };
+
+  useEffect(() => {
+    baseService
+      .get<PaymentType>(`payment-type/${paymentTypeId}`)
+      .then((res) => {
+        console.log(res.data)
+        setPaymentType(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [paymentTypeId]);
 
   return (
     <div style={{ padding: 16, margin: "auto", maxWidth: 800 }}>
