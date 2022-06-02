@@ -25,11 +25,11 @@ class BaseService {
 
     this.axiosClient.interceptors.request.use(
       async (request) => {
-        const session = await getSession()
-        console.log(session)
+        const session = await getSession();
+        console.log(session);
         /** @ts-ignore */
         // request.headers['x-access-toen'] = session?.accessToken
-        return Promise.resolve(request)
+        return Promise.resolve(request);
       },
       (error) => {
         if (error.response && error.response.data) {

@@ -4,17 +4,11 @@ import { getCsrfToken, signIn } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useAlert from "../hooks/useAlert";
-export default function Login({ csrfToken }: any) {
+export default function Login() {
   const router = useRouter();
   const alert = useAlert();
 
-  const handleLogin = async (email: string, password: string) => {
-    await signIn("credentials", {
-      username: email,
-      password,
-      callbackUrl: "/",
-    });
-  };
+  const handleLogin = async (email: string, password: string) => {};
 
   useEffect(() => {
     if (router.query.error) {
@@ -24,14 +18,7 @@ export default function Login({ csrfToken }: any) {
 
   return (
     <BaseComponent title="Login">
-      <SignIn handleSubmit={handleLogin} csrfToken={csrfToken} />
+      <SignIn handleSubmit={handleLogin} />
     </BaseComponent>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const csrfToken = await getCsrfToken(context);
-  return {
-    props: { csrfToken },
-  };
 }

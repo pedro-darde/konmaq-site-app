@@ -23,17 +23,22 @@ export default function OpenPageComponent({
 }: OpenPageProps) {
   const { add } = useCart();
   const { products, handleClear } = useSearchProducts();
-  const { data } = useSession();
+
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    const getData = async () => {
+      const session = await getSession();
+      console.log(session);
+    };
+    getData();
+  }, []);
   return (
     <div
       style={{
         justifyContent: "flex-start",
         width: "100%",
         height: "100%",
-      }}>
+      }}
+    >
       <div>
         <ChipCategoryFilter categories={categories} />
       </div>
@@ -60,7 +65,8 @@ export default function OpenPageComponent({
             <Grid item xs={4}>
               <Typography
                 variant="h5"
-                sx={{ maxWidth: 350, textAlign: "start" }}>
+                sx={{ maxWidth: 350, textAlign: "start" }}
+              >
                 Lançamentos
               </Typography>
               {product.releases.map((product, _) => (
@@ -70,7 +76,8 @@ export default function OpenPageComponent({
             <Grid item xs={6}>
               <Typography
                 variant="h5"
-                sx={{ maxWidth: 350, textAlign: "start" }}>
+                sx={{ maxWidth: 350, textAlign: "start" }}
+              >
                 Destaques
               </Typography>
               <Grid container spacing={2}>

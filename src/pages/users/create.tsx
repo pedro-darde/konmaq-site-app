@@ -11,6 +11,9 @@ import BaseComponent from "../../components/BaseComponent";
 export default function Create() {
   const router = useRouter();
   const addUser = (user: User) => {
+    Object.keys(user).forEach((key) => {
+      if (!user[key]) delete user[key];
+    });
     baseService
       .post<{ user: User }, UserAdd>("user", { user })
       .then((res) => {

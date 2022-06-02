@@ -15,6 +15,7 @@
     "@types/axios": "^0.14.0",
     "axios": "^0.25.0",
     "file-selector": "^0.4.0",
+    "jwt-decode": "^3.1.2",
     "lottie-react": "^2.2.1",
     "material-ui-dropzone": "^3.5.0",
     "mui-file-dropzone": "^4.0.1",

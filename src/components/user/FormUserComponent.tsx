@@ -48,11 +48,22 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
     fieldName: FieldNamesUser,
     value: string | number | boolean
   ) => {
+    if (fieldName === "city") {
+      setCityName(value);
+    }
     setUser((currentUser) => {
       let newUser = Object.assign({}, currentUser);
       newUser[fieldName] = value;
       return newUser;
     });
+  };
+
+  const setCityName = (codigo: any) => {
+    const { nome } = municipios.filter(
+      (municipio) => municipio.cod_municipio == codigo
+    )[0];
+
+    handleChangeState("city_name", nome);
   };
 
   const maskCpfOrCnpj = (v: string) => {
@@ -266,7 +277,6 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                     handleChangeState("city", e.target.value);
                   }}
                   color="success"
-                  required
                 >
                   {municipios.map((value, key) => {
                     return (

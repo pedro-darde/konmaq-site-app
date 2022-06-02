@@ -2,8 +2,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -20,7 +18,6 @@ const theme = createTheme();
 
 type SignInProps = {
   handleSubmit: (email: string, password: string) => void;
-  csrfToken: string;
 };
 export default function SignIn({ handleSubmit }: SignInProps) {
   const [email, setEmail] = useState<string>("");
@@ -36,14 +33,15 @@ export default function SignIn({ handleSubmit }: SignInProps) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Avatar sx={{ m: 1, bgcolor: colors.header_color }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box component="div" noValidate sx={{ mt: 1 }}>
+          <Box component="div" sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               inputProps={{
@@ -85,7 +83,8 @@ export default function SignIn({ handleSubmit }: SignInProps) {
               }}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: colors.primary_color }}>
+              sx={{ mt: 3, mb: 2, bgcolor: colors.primary_color }}
+            >
               Entrar
             </Button>
             <Grid container>
