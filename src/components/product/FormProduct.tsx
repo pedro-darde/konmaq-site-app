@@ -44,7 +44,7 @@ export default function FormProduct({
     categories: [],
   });
 
-  const [files, setFiles] = useState<Array<File>>([])
+  const [files, setFiles] = useState<Array<File>>([]);
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     handleSubmit(product, files);
@@ -348,17 +348,17 @@ export default function FormProduct({
 
           <Grid container sx={{ marginTop: "1.5em" }}>
             <Grid item xs={12}>
-              <DropzoneArea
+              {/* <DropzoneArea
                 onChange={(files) => {
-                  setFiles(files)
+                  setFiles(files);
                 }}
-                fileObjects={''}
+                fileObjects={""}
                 acceptedFiles={[".png", ".jpg", ".jpeg"]}
                 dropzoneText={"Arraste e solte o arquivo aqui"}
                 showPreviewsInDropzone={true}
                 showFileNames={true}
                 previewText={"Arquivo selecionado: "}
-              />
+              /> */}
             </Grid>
           </Grid>
 
@@ -369,7 +369,11 @@ export default function FormProduct({
             sx={{ marginTop: "1.25em" }}>
             <Grid item xs={9}></Grid>
             <Grid item xs={3}>
-              <Button color="error" variant="contained" style={{ marginRight: '1em' }} type="submit">
+              <Button
+                color="error"
+                variant="contained"
+                style={{ marginRight: "1em" }}
+                type="submit">
                 Cadastrar
               </Button>
             </Grid>

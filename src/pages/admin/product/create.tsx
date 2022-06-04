@@ -10,8 +10,9 @@ import useAlert from "../../../hooks/useAlert";
 import { useState } from "react";
 import FetchLoadingComponent from "../../../components/loaders/FetchLoadingComponent";
 import BaseComponent from "../../../components/BaseComponent";
+import AdminAuth from "../../../components/adminAuth";
 
-export default function Create() {
+const Create = () => {
   const { toast } = useAlert();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -75,4 +76,6 @@ export default function Create() {
       </Container>
     </BaseComponent>
   );
-}
+};
+
+export default AdminAuth(Create);

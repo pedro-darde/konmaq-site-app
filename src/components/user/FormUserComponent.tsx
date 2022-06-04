@@ -16,45 +16,65 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormEvent, useState } from "react";
 import { estadoOptions } from "../../fixed/estado-options";
 import { isentoOptions } from "../../fixed/isento-options";
-import { FieldNamesUser, User } from "../../interfaces/User";
+import {
+  FieldNamesUser,
+  User,
+  UserAddress,
+  UserAddressFields,
+} from "../../interfaces/User";
 import { baseService } from "../../services/api";
 import { Municipio } from "../../interfaces/Municipio";
 interface FormUserProps {
-  handleSubmit(user: User): void;
+  handleSubmit(user: User, userAddress: UserAddress): void;
 }
 export default function FormUserComponent({ handleSubmit }: FormUserProps) {
   const [user, setUser] = useState<User>({
-    additional: "",
-    cep: "",
-    country: "",
-    document: "",
     email: "",
     insc_estadual: "",
     isento: 0,
     name_social_name: "",
-    neighboor: "",
     password: "",
     phone_number: "",
-    street_name: "",
-    street_number: "",
+    document: "",
+  });
+  const [userAddress, setUserAddress] = useState<UserAddress>({
+    additional: "",
+    cep: "",
     city: "",
     city_name: "",
+    country: "",
+    neighboor: "",
+    street_name: "",
+    street_number: "",
   });
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
+
   const handleChangeState = (
     fieldName: FieldNamesUser,
     value: string | number | boolean
   ) => {
-    if (fieldName === "city") {
-      setCityName(value);
-    }
     setUser((currentUser) => {
       let newUser = Object.assign({}, currentUser);
       newUser[fieldName] = value;
       return newUser;
+    });
+  };
+
+  const handleChangeStateUserAddress = (
+    field: UserAddressFields,
+    value: any
+  ) => {
+    if (field === "city") {
+      setCityName(value);
+    }
+
+    setUserAddress((current) => {
+      let newUserAddress = Object.assign({}, current);
+      newUserAddress[field] = value;
+      return newUserAddress;
     });
   };
 
@@ -63,7 +83,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
       (municipio) => municipio.cod_municipio == codigo
     )[0];
 
-    handleChangeState("city_name", nome);
+    handleChangeStateUserAddress("city_name", nome);
   };
 
   const maskCpfOrCnpj = (v: string) => {
@@ -100,7 +120,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     treatUserInfo();
-    handleSubmit(user);
+    handleSubmit(user, userAddress);
   };
 
   const handleChangeSelectState = (value: number) => {
@@ -246,10 +266,10 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                   defaultValue={""}
                   color="success"
                   required
-                  value={user.country}
+                  value={userAddress.country}
                   onChange={(e) => {
-                    handleChangeState("country", e.target.value);
-                    handleChangeSelectState(e.target.value as number);
+                    handleChangeStateUserAddress("country", e.target.value);
+                    handleChangeSelectState(parseInt(e.target.value!));
                   }}
                 >
                   {Object.keys(estadoOptions).map((value, key) => {
@@ -272,9 +292,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 <Select
                   label="Cidade"
                   defaultValue={0}
-                  value={user.city}
+                  value={parseInt(userAddress.city)}
                   onChange={(e) => {
-                    handleChangeState("city", e.target.value);
+                    handleChangeStateUserAddress("city", e.target.value);
                   }}
                   color="success"
                 >
@@ -295,9 +315,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 required
                 color="success"
                 label="Bairro"
-                value={user.neighboor}
+                value={userAddress.neighboor}
                 onChange={(e) => {
-                  handleChangeState("neighboor", e.target.value);
+                  handleChangeStateUserAddress("neighboor", e.target.value);
                 }}
               />
             </Grid>
@@ -309,9 +329,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 required
                 color="success"
                 label="Rua"
-                value={user.street_name}
+                value={userAddress.street_name}
                 onChange={(e) => {
-                  handleChangeState("street_name", e.target.value);
+                  handleChangeStateUserAddress("street_name", e.target.value);
                 }}
               />
             </Grid>
@@ -322,9 +342,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 fullWidth
                 color="success"
                 label="Numero"
-                value={user.street_number}
+                value={userAddress.street_number}
                 onChange={(e) => {
-                  handleChangeState("street_number", e.target.value);
+                  handleChangeStateUserAddress("street_number", e.target.value);
                 }}
               />
             </Grid>
@@ -335,9 +355,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 fullWidth
                 color="success"
                 label="Complemento"
-                value={user.additional}
+                value={userAddress.additional}
                 onChange={(e) => {
-                  handleChangeState("additional", e.target.value);
+                  handleChangeStateUserAddress("additional", e.target.value);
                 }}
               />
             </Grid>
@@ -349,9 +369,9 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 color="success"
                 label="CEP"
                 inputProps={{ maxLength: 9 }}
-                value={maskCEP(user.cep as string)}
+                value={maskCEP(userAddress.cep as string)}
                 onChange={(e) => {
-                  handleChangeState("cep", e.target.value);
+                  handleChangeStateUserAddress("cep", e.target.value);
                 }}
               />
             </Grid>

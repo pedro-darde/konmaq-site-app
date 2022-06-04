@@ -6,7 +6,6 @@ import { AddedSupplier } from "../../../interfaces/Supplier";
 import { baseService } from "../../../services/api";
 import { Category } from "../../../interfaces/Category";
 import BaseComponent from "../../../components/BaseComponent";
-
 type ProductInfoProps = {
   product: ProductAdded;
   categories: Category[];
@@ -44,8 +43,7 @@ export default function ProductInformation({
 }
 
 export async function getServerSideProps({ query }: any) {
-  console.log("aqui 1");
-  console.log(query);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dataProduct = await baseService.get<ProductAdded>(
     "product/" + query.slug
   );

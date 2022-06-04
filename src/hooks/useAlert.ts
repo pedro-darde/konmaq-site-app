@@ -1,4 +1,4 @@
-import Swal, { SweetAlertPosition } from "sweetalert2";
+import Swal, { SweetAlertIcon, SweetAlertPosition } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 export default function useAlert() {
   const MySwal = withReactContent(Swal);
@@ -20,13 +20,14 @@ export default function useAlert() {
     message = "Sucesso",
     showConfirmButton = false,
     time = 1750,
-    position: SweetAlertPosition = "bottom-end"
+    position: SweetAlertPosition = "bottom-end",
+    icon: SweetAlertIcon = "success"
   ) {
     MySwal.fire({
       showConfirmButton: showConfirmButton,
       toast: true,
       position: position,
-      icon: "success",
+      icon: icon,
       background: '#a5dc86',
       color: 'white',
       iconColor: 'white',

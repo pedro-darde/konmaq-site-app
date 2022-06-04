@@ -14,15 +14,7 @@ export type FieldNamesUserAdd =
   | "isento"
   | "email"
   | "phone_number"
-  | "country"
-  | "neighboor"
-  | "street_name"
-  | "street_number"
-  | "additional"
-  | "cep"
-  | "password"
-  | "city"
-  | "city_name";
+  | "password";
 
 export type FieldNamesUser =
   | "document"
@@ -31,15 +23,7 @@ export type FieldNamesUser =
   | "isento"
   | "email"
   | "phone_number"
-  | "country"
-  | "neighboor"
-  | "street_name"
-  | "street_number"
-  | "additional"
-  | "cep"
-  | "password"
-  | "city"
-  | "city_name";
+  | "password";
 
 export type FirstFieldNames =
   | "name_social_name"
@@ -89,4 +73,18 @@ export const FirstFieldNamesObjectWithValues: FirstFieldNamesObject = {
     maskType: "celphone",
     placeholder: "Celular",
   },
+};
+
+export type UserAddressFields =
+  | "country"
+  | "neighboor"
+  | "street_name"
+  | "street_number"
+  | "additional"
+  | "cep"
+  | "city"
+  | "city_name";
+
+export type UserAddress = {
+  [key in UserAddressFields]: string;
 };

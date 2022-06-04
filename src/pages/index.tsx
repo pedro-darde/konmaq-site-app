@@ -7,6 +7,8 @@ import { ProductWithFiles } from "../interfaces/Product";
 import { baseService } from "../services/api";
 import { Category, CategoryPage } from "../interfaces/Category";
 import BaseComponent from "../components/BaseComponent";
+import { useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 type HomeProps = {
   product: { releases: ProductWithFiles[]; popular: ProductWithFiles[] };
   pageCategories: CategoryPage[];
@@ -17,6 +19,15 @@ export default function Home({
   pageCategories,
   categories,
 }: HomeProps) {
+  const { validateToken } = useAuth();
+
+  useEffect(() => {
+    const validate = async () => {
+      await validateToken();
+    };
+    validate();
+  }, []);
+  
   return (
     <BaseComponent title="Konmaq">
       <div className={styles.container}>
