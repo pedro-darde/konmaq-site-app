@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { UserAddress } from "../../interfaces/User";
 
 export default function OrderSteps() {
-  const [address, setAddress] = useState<{}>({});
-  
+  const [addressess, setAddresses] = useState<UserAddress[]>([]);
 }

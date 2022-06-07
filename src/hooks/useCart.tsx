@@ -53,7 +53,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     }
     setProductsCart(newProducts);
     storage.set(KONMAP_PRODUCTS_KEY, JSON.stringify(newProducts));
-    alert.toast("Item adicionado", false, 1250, "bottom-right");
+    alert.toast("Produto adicionado", false, 2000, "bottom-right");
   };
 
   const changeQuantity = (id: number, quantity: number): void => {
