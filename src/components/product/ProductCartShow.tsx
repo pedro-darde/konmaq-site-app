@@ -63,12 +63,6 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
     return products.reduce((sum, { quantity }) => sum + quantity, 0);
   };
 
-  const getProducts = () => {
-    const ids = products.map((product) => product.id);
-  };
-
-  useEffect(() => {}, []);
-
   return (
     <div style={{ width: "100%", padding: 2 }}>
       {products?.map(({ product, quantity }, key) => {
@@ -80,7 +74,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                 display: "grid",
                 alignItems: "center",
                 gridTemplateColumns: "repeat(4, 1fr)",
-              }}>
+              }}
+            >
               {isOrderScreen ? (
                 // <ProductImageListShow files={product.}/>
                 <p> teste </p>
@@ -92,7 +87,7 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                 </Item>
               )}
 
-              <Item sx={{ flexGrow: 1 }}>
+              <Item sx={{ flexGrow: 2 }}>
                 <FormControl fullWidth>
                   <InputLabel> Quantidade </InputLabel>
                   <Select
@@ -103,7 +98,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                         parseInt(product.id.toString()),
                         parseInt(event.target.value.toString())
                       );
-                    }}>
+                    }}
+                  >
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
                       (qtd, idx) => {
                         return (
@@ -122,7 +118,7 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                     Number(product.price),
                     Number(product.discount),
                     Number(product.promotion),
-                    quantity
+                    1
                   ).toLocaleString("pt-BR", localeStringOpts)}
                 </p>
               </Item>
@@ -131,7 +127,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
                   id="remove-item"
                   onClick={() => {
                     removeItem(parseInt(product.id.toString()));
-                  }}>
+                  }}
+                >
                   <Delete color="error" />
                 </IconButton>
               </Item>
@@ -144,7 +141,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
           <p style={{ fontSize: "12px" }}>
             <p style={{ fontWeight: "bold" }}> Subtotal: </p>
@@ -162,7 +160,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
           display: "grid",
           gridAutoColumns: "1fr",
           gap: 1,
-        }}>
+        }}
+      >
         <Item sx={{ gridRow: "1", gridColumn: "4 / 5" }}>
           {!isOrderScreen && (
             <Button
@@ -171,7 +170,8 @@ export const ProductCartShow = ({ isOrderScreen }: ProductCartShowProps) => {
               variant="contained"
               onClick={() => {
                 router.push("/order");
-              }}>
+              }}
+            >
               Finalizar pedido
             </Button>
           )}

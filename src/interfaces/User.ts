@@ -14,7 +14,8 @@ export type FieldNamesUserAdd =
   | "isento"
   | "email"
   | "phone_number"
-  | "password";
+  | "password"
+  | "type";
 
 export type FieldNamesUser =
   | "document"
@@ -23,7 +24,8 @@ export type FieldNamesUser =
   | "isento"
   | "email"
   | "phone_number"
-  | "password";
+  | "password"
+  | "type";
 
 export type FirstFieldNames =
   | "name_social_name"
@@ -83,8 +85,11 @@ export type UserAddressFields =
   | "additional"
   | "cep"
   | "city"
-  | "city_name";
+  | "city_name"
+  | "nickname";
 
 export type UserAddress = {
   [key in UserAddressFields]: string;
 };
+
+export type UserAddressWithId = UserAddress & { id: number };

@@ -117,7 +117,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openAnchor = Boolean(anchorEl);
-  const { getToken } = useAuth();
+  const { getToken, user, loadUserInfo } = useAuth();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -135,6 +135,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
 
   const MenuCart = () => {
     return (
@@ -173,13 +174,15 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
         <ProductCartShow isOrderScreen={false} />
       </Menu>
     );
   };
 
   React.useEffect(() => {
+    loadUserInfo();
     load();
   }, []);
 
@@ -196,34 +199,37 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
             sx={{
               marginRight: "36px",
               ...(open && { display: "none" }),
-            }}>
+            }}
+          >
             <MenuIcon />
           </IconButton>
           <IconButton
             onClick={() => {
               router.push("/");
-            }}>
+            }}
+          >
             <Image src={LogoImage} height={50} width={150} alt="Logo do site" />
           </IconButton>
           <Box sx={{ marginLeft: "auto" }}>
-            {!getToken() && (
+            {!user.userName && (
               <>
                 <Button
                   startIcon={<PersonAdd />}
                   sx={{ marginRight: "1rem", color: "white" }}
                   onClick={() => {
                     router.push("/users/create");
-                  }}>
+                  }}
+                >
                   Cadastrar-se
                 </Button>
               </>
             )}
 
-            {getToken() !== "" ? (
+            {user.userName ? (
               <>
                 <IconButton>
                   <Person color="success" />
-                  {/** @ts-ignore*/ getToken().userName}
+                  {/** @ts-ignore*/ user.userName}
                 </IconButton>
               </>
             ) : (
@@ -231,7 +237,8 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
                 <Button
                   startIcon={<Login />}
                   sx={{ color: "white" }}
-                  onClick={() => router.push("/login")}>
+                  onClick={() => router.push("/login")}
+                >
                   Já sou usuário
                 </Button>
               </>
@@ -244,7 +251,8 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
               onClick={handleClick}
               aria-controls={openAnchor ? "cart-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={openAnchor ? "true" : undefined}>
+              aria-expanded={openAnchor ? "true" : undefined}
+            >
               <Badge color="primary" badgeContent={products.length}>
                 <ShoppingBagOutlined
                   color={products.length === 0 ? "disabled" : "primary"}

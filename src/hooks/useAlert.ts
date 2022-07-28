@@ -28,13 +28,21 @@ export default function useAlert() {
       toast: true,
       position: position,
       icon: icon,
-      background: '#a5dc86',
-      color: 'white',
-      iconColor: 'white',
+      background: "#a5dc86",
+      color: "white",
+      iconColor: "white",
       html: message,
       timer: time,
     });
   }
 
-  return { fire, toast };
+  function success(title: string) {
+    MySwal.fire({
+      title,
+      icon: "success",
+      showConfirmButton: false,
+    });
+  }
+
+  return { fire, toast, success };
 }

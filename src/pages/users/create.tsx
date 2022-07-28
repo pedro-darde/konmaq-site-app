@@ -9,6 +9,7 @@ const Create = () => {
   const router = useRouter();
   const addUser = (user: User, userAddress: UserAddress) => {
     Object.keys(user).forEach((key) => {
+      /** @ts-ignore */
       if (!user[key]) delete user[key];
     });
 
@@ -23,7 +24,7 @@ const Create = () => {
       .catch((err) => {});
   };
   return (
-    <BaseComponent title="Adicionar produto">
+    <BaseComponent title="Criar conta">
       <Container maxWidth="xl">
         <TitleComponent title="Criar usuário" />
         <FormUserComponent

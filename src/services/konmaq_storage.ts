@@ -1,5 +1,6 @@
 export const KONMAP_PRODUCTS_KEY = "products";
-export const KONMAQ_TOKEN_KEY = "token"
+export const KONMAQ_TOKEN_KEY = "token";
+export const KONMAQ_ORDER_KEY = "order";
 
 class KonmaqStorage {
   public set(key: string, payload: string) {
@@ -7,11 +8,11 @@ class KonmaqStorage {
   }
 
   public get<Type>(key: string, needToParse = true): any {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const item = localStorage.getItem(key);
-      return needToParse ? JSON.parse(item!) as Type : item;
+      return needToParse ? (JSON.parse(item!) as Type) : item;
     }
-    return ''
+    return "";
   }
 
   public getMany<Type>(keys: string[]): Type[] {

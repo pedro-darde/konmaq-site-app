@@ -36,6 +36,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
     password: "",
     phone_number: "",
     document: "",
+    type: "user"
   });
   const [userAddress, setUserAddress] = useState<UserAddress>({
     additional: "",
@@ -46,6 +47,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
     neighboor: "",
     street_name: "",
     street_number: "",
+    nickname: "",
   });
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -349,7 +351,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
               />
             </Grid>
 
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <TextField
                 variant="standard"
                 fullWidth
@@ -362,7 +364,7 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 variant="standard"
                 fullWidth
@@ -372,6 +374,18 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
                 value={maskCEP(userAddress.cep as string)}
                 onChange={(e) => {
                   handleChangeStateUserAddress("cep", e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                variant="standard"
+                fullWidth
+                color="success"
+                label="Apelido"
+                value={userAddress.nickname}
+                onChange={(e) => {
+                  handleChangeStateUserAddress("nickname", e.target.value);
                 }}
               />
             </Grid>

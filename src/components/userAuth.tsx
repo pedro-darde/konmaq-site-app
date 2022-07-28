@@ -1,13 +1,15 @@
 import { NextComponentType } from "next";
 import Unauthorized from "./unauthorized";
 import { useAuth } from "../hooks/useAuth";
-function AdminAuth<T>(Component: NextComponentType<T>) {
+import MustBeLogged from "./MustBeLogged";
+
+function UserAuth<T>(Component: NextComponentType<T>, goTo: string) {
   const Auth = (props: T) => {
     if (typeof window !== "undefined") {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { getToken } = useAuth();
 
-      if (getToken().role !== "admin") return <Unauthorized />;
+      if (!getToken()) return <MustBeLogged goTo={goTo} />;
     }
 
     return <Component {...props} />;
@@ -21,4 +23,4 @@ function AdminAuth<T>(Component: NextComponentType<T>) {
   return Auth;
 }
 
-export default AdminAuth;
+export default UserAuth;

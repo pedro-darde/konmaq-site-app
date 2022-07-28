@@ -20,8 +20,10 @@ type ProductContextProviderProps = {
 export function ProductContextProvider({
   children,
 }: ProductContextProviderProps) {
+  
   const [products, setProducts] = useState<ProductWithFiles[]>([]);
   const [currentCategoryID, setCurrentCategoryID] = useState<number>(-1);
+  
   const handleSearch = (
     category_id: number,
     parent: Category | null = null
