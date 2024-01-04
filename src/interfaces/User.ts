@@ -15,7 +15,14 @@ export type FieldNamesUserAdd =
   | "email"
   | "phone_number"
   | "password"
-  | "type";
+  | "type"
+  | "neighboor"
+  | "country"
+  | "city"
+  | "street_name"
+  | "street_number"
+  | "additional"
+  | "cep";
 
 export type FieldNamesUser =
   | "document"
@@ -25,8 +32,14 @@ export type FieldNamesUser =
   | "email"
   | "phone_number"
   | "password"
-  | "type";
-
+  | "type"
+  | "neighboor"
+  | "country"
+  | "city"
+  | "street_name"
+  | "street_number"
+  | "additional"
+  | "cep";
 export type FirstFieldNames =
   | "name_social_name"
   | "document"

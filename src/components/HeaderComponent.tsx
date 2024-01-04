@@ -25,7 +25,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Image from "next/image";
-import LogoImage from "../../public/konmaqlogo.jpg";
 import { Badge, Button, Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
 import colors from "../constants/colors";
@@ -208,7 +207,7 @@ export default function HeaderComponent({ childComponent }: HeaderProps) {
               router.push("/");
             }}
           >
-            <Image src={LogoImage} height={50} width={150} alt="Logo do site" />
+            {/*<Image src={LogoImage} height={50} width={150} alt="Logo do site" />*/}
           </IconButton>
           <Box sx={{ marginLeft: "auto" }}>
             {!user.userName && (

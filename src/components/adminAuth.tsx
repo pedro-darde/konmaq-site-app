@@ -1,14 +1,18 @@
 import { NextComponentType } from "next";
 import Unauthorized from "./unauthorized";
-import { useAuth } from "../hooks/useAuth";
+import {useAuth, UserFromToken} from "../hooks/useAuth";
+import Login from "../pages/login";
+import {useRouter} from "next/router";
 function AdminAuth<T>(Component: NextComponentType<T>) {
   const Auth = (props: T) => {
-    if (typeof window !== "undefined") {
+    const router = useRouter()
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { getToken } = useAuth();
+    const { getToken } = useAuth();
 
-      if (getToken().role !== "admin") return <Unauthorized />;
+    if (getToken() === "") {
+      return <Login {...props}  resetHistory={true} />
     }
+    if (typeof getToken() !== "string" && (getToken() as UserFromToken).role !== "admin") return <Unauthorized />;
 
     return <Component {...props} />;
   };

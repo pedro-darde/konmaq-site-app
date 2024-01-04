@@ -21,6 +21,7 @@
     "mui-file-dropzone": "^4.0.1",
     "next": "12.0.10",
     "next-auth": "^4.3.4",
+    "nookies": "^2.5.2",
     "react": "17.0.2",
     "react-currency-format": "^1.1.0",
     "react-dom": "17.0.2",

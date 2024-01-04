@@ -36,7 +36,14 @@ export default function FormUserComponent({ handleSubmit }: FormUserProps) {
     password: "",
     phone_number: "",
     document: "",
-    type: "user"
+    type: "user",
+    additional: "",
+    cep: "",
+    country: "",
+    neighboor: "",
+    street_name: "",
+    street_number: "",
+    city: ""
   });
   const [userAddress, setUserAddress] = useState<UserAddress>({
     additional: "",

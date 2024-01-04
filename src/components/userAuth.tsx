@@ -5,12 +5,10 @@ import MustBeLogged from "./MustBeLogged";
 
 function UserAuth<T>(Component: NextComponentType<T>, goTo: string) {
   const Auth = (props: T) => {
-    if (typeof window !== "undefined") {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { getToken } = useAuth();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { getToken } = useAuth();
 
-      if (!getToken()) return <MustBeLogged goTo={goTo} />;
-    }
+    if (!getToken()) return <MustBeLogged goTo={goTo} />;
 
     return <Component {...props} />;
   };

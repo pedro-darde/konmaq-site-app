@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
 import useAlert from "../hooks/useAlert";
 import { KONMAQ_TOKEN_KEY, storage } from "./konmaq_storage";
+import { parseCookies } from "nookies";
 
 export type PrimitiveDate<Type> = {
   [Key in keyof Type]: Type[Key] extends Date ? string : Type[Key];
@@ -96,9 +97,9 @@ class BaseService {
   }
 
   public getToken() {
-    if (typeof window !== "undefined")
-      return storage.get(KONMAQ_TOKEN_KEY, false);
-    return null;
+    const cookies = parseCookies()
+    console.log(cookies )
+    return parseCookies()[KONMAQ_TOKEN_KEY];  
   }
 
   //   public async getUserLoggedId() {

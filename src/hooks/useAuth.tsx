@@ -5,6 +5,7 @@ import { KONMAQ_TOKEN_KEY, storage } from "../services/konmaq_storage";
 import useAlert from "./useAlert";
 import jwtDecode from "jwt-decode";
 import Login from "../pages/login";
+import { parseCookies } from "nookies";
 
 export type UserFromToken = {
   role: string;
@@ -19,8 +20,8 @@ export type UseAuthContextProps = {
   signIn: (
     password: string,
     email: string,
-    goTo: string,
-    showAlert: boolean
+    goTo?: string,
+    showAlert?: boolean
   ) => void;
   signOut: (user_id: number) => void;
   validateToken: () => Promise<void>;
@@ -39,7 +40,6 @@ export type UseAuthContextProviderProps = {
 export function AuthContextProvider({ children }: UseAuthContextProviderProps) {
   const [user, setUser] = useState<UserFromToken>({} as UserFromToken);
   const getToken = () => {
-    if (typeof window !== "undefined") {
       const token = storage.get<string>(KONMAQ_TOKEN_KEY, false);
       if (token) {
         return jwtDecode<{
@@ -51,9 +51,7 @@ export function AuthContextProvider({ children }: UseAuthContextProviderProps) {
         }>(token);
       }
       return "";
-    }
-    return "";
-  };
+   };
 
   const router = useRouter();
   const { fire, toast } = useAlert();
@@ -73,6 +71,7 @@ export function AuthContextProvider({ children }: UseAuthContextProviderProps) {
         storage.set(KONMAQ_TOKEN_KEY, res.data.accessToken);
         loadUserInfo();
         router.push(goTo);
+        console.log("loguei", parseCookies())
         if (showAlert) toast("Logado com sucesso.", false, 3500, "bottom-end");
       })
       .catch((err) => {

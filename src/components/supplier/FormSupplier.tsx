@@ -182,7 +182,7 @@ export default function FormSupplierComponent({
                   }}>
                   {Object.keys(estadoOptions).map((value, key) => {
                     return (
-                      <MenuItem value={value} key={key}>
+                      <MenuItem value={estadoOptions[value].sigla} key={key}>
                         {estadoOptions[value].sigla}
                       </MenuItem>
                     );

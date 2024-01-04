@@ -9,7 +9,6 @@ export default function Create() {
   const { toast } = useAlert();
   
   const addSupplier = (supplier: Supplier) => {
-    console.log(supplier);
     baseService
       .post<{ supplier: Supplier }, { data: any }>("supplier", { supplier })
       .then((res) => {

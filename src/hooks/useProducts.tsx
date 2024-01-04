@@ -2,6 +2,7 @@ import { ProductAdded, ProductWithFiles } from "../interfaces/Product";
 import React, { createContext, useContext, useState } from "react";
 import { baseService } from "../services/api";
 import { Category } from "../interfaces/Category";
+import { Cached } from "../services/cached";
 
 type ProductContextProp = {
   currentCategoryID: number;
@@ -24,29 +25,21 @@ export function ProductContextProvider({
   const [products, setProducts] = useState<ProductWithFiles[]>([]);
   const [currentCategoryID, setCurrentCategoryID] = useState<number>(-1);
   
-  const handleSearch = (
+  const handleSearch = async (
     category_id: number,
     parent: Category | null = null
   ) => {
+    const cached = new Cached()
     setCurrentCategoryID(category_id);
-    baseService
-      .get<ProductWithFiles[]>(`product-category/${category_id}`)
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log("error fetching products by category", err);
-      });
+    const modelCategory = `product-category/${category_id}`
+    const items = await cached.get<ProductWithFiles[]>(modelCategory)
+    setProducts(items);
+
 
     if (parent) {
-      baseService
-        .get<ProductWithFiles[]>(`product-category/${parent.id}`)
-        .then((res) => {
-          setProducts((current) => [...current, ...res.data]);
-        })
-        .catch((err) => {
-          console.log("error fetching products by parent category", err);
-        });
+      const modelParent = `product-category/${parent.id}`
+      const items = await cached.get<ProductWithFiles[]>(modelParent)
+      setProducts((current) => [...current, ...items]);
     }
   };
 

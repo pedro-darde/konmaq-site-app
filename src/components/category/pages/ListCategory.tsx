@@ -30,9 +30,9 @@ export default function ListCategory({
         onClick={() => {
           handleClick(pageCategory.id, pageCategory.category);
         }}
-        sx={{
-          pl: padding,
-          bgcolor: pageCategory.id === currentCategoryID && "Highlight",
+        style={{
+          paddingLeft: padding,
+          backgroundColor: pageCategory.id === currentCategoryID ? "Highlight": '',
         }}>
         <ListItemText primary={pageCategory.name} />
         {pageCategory.children.length > 0 && (
