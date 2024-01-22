@@ -13,9 +13,9 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import CurrencyFormat from "react-currency-format";
+// import CurrencyFormat from "react-currency-format";
 import { AddedSupplier } from "../../interfaces/Supplier";
-import { DropzoneArea } from "mui-file-dropzone";
+// import { DropzoneArea } from "mui-file-dropzone";
 type FormProductProps = {
   handleSubmit: (product: Product, files: File[]) => void;
   categories: Category[];
@@ -88,7 +88,8 @@ export default function FormProduct({
             <Grid item xs={6}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Fornecedor do Produto </InputLabel>
                 <Select
                   defaultValue={""}
@@ -99,7 +100,8 @@ export default function FormProduct({
                       "supplier",
                       e.target.value as Array<number>
                     );
-                  }}>
+                  }}
+                >
                   {suppliers?.map((value, key) => {
                     return (
                       <MenuItem value={value.id} key={key}>
@@ -158,7 +160,8 @@ export default function FormProduct({
             <Grid item xs={6}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Categorias do Produto </InputLabel>
                 <Select
                   defaultValue={""}
@@ -170,7 +173,8 @@ export default function FormProduct({
                       "categories",
                       e.target.value as Array<number>
                     );
-                  }}>
+                  }}
+                >
                   {categories?.map((value, key) => {
                     return (
                       <MenuItem value={value.id} key={key}>
@@ -189,7 +193,7 @@ export default function FormProduct({
 
           <Grid container spacing={2} alignItems={"flex-start"}>
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Peso do Produto"
                 color="success"
@@ -204,10 +208,10 @@ export default function FormProduct({
                 suffix={" g"}
                 prefix={""}
                 value={product.weight as string}
-              />
+              /> */}
             </Grid>
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Altura do Produto"
                 color="success"
@@ -222,10 +226,10 @@ export default function FormProduct({
                 suffix={" cm"}
                 prefix={""}
                 value={product.height as string}
-              />
+              /> */}
             </Grid>
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Comprimento do Produto"
                 color="success"
@@ -240,11 +244,11 @@ export default function FormProduct({
                 suffix={" cm"}
                 prefix={""}
                 value={product.length as string}
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Largura do Produto"
                 color="success"
@@ -259,7 +263,7 @@ export default function FormProduct({
                 suffix={" cm"}
                 prefix={""}
                 value={product.width as string}
-              />
+              /> */}
             </Grid>
           </Grid>
 
@@ -269,7 +273,7 @@ export default function FormProduct({
 
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 required
                 label="Valor do Produto"
@@ -286,11 +290,11 @@ export default function FormProduct({
                 decimalSeparator={","}
                 prefix={"R$ "}
                 value={product.price as string}
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Desconto do Produto"
                 color="success"
@@ -304,11 +308,11 @@ export default function FormProduct({
                 decimalScale={0}
                 suffix={" %"}
                 value={product.discount as string}
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Promocao do Produto"
                 color="success"
@@ -324,11 +328,11 @@ export default function FormProduct({
                 decimalScale={2}
                 prefix={"R$ "}
                 value={product.promotion as string}
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={3}>
-              <CurrencyFormat
+              {/* <CurrencyFormat
                 customInput={TextField}
                 label="Prazo de entrega"
                 color="success"
@@ -342,7 +346,7 @@ export default function FormProduct({
                 decimalScale={0}
                 suffix={" dias"}
                 value={product.deadline as string}
-              />
+              /> */}
             </Grid>
           </Grid>
 
@@ -366,14 +370,16 @@ export default function FormProduct({
             container
             spacing={2}
             alignItems={"flex-start"}
-            sx={{ marginTop: "1.25em" }}>
+            sx={{ marginTop: "1.25em" }}
+          >
             <Grid item xs={9}></Grid>
             <Grid item xs={3}>
               <Button
                 color="error"
                 variant="contained"
                 style={{ marginRight: "1em" }}
-                type="submit">
+                type="submit"
+              >
                 Cadastrar
               </Button>
             </Grid>

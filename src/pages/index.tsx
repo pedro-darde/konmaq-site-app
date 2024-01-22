@@ -1,5 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
+"use-client";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 import OpenPageComponent from "../components/OpenPageComponent";
@@ -7,33 +6,57 @@ import { ProductWithFiles } from "../interfaces/Product";
 import { baseService } from "../services/api";
 import { Category, CategoryPage } from "../interfaces/Category";
 import BaseComponent from "../components/BaseComponent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-type HomeProps = {
-  product: { releases: ProductWithFiles[]; popular: ProductWithFiles[] };
-  pageCategories: CategoryPage[];
-  categories: Category[];
-};
-export default function Home({
-  product,
-  pageCategories,
-  categories,
-}: HomeProps) {
+import FetchLoadingComponent from "../components/loaders/FetchLoadingComponent";
+
+export default function Home() {
   const { validateToken } = useAuth();
+  const [product, setProducts] = useState<{
+    releases: ProductWithFiles[];
+    popular: ProductWithFiles[];
+  }>();
+  const [pageCategories, setPageCategories] = useState<CategoryPage[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const validate = async () => {
       await validateToken();
     };
+    const getData = async () => {
+      const promiseProductHome = baseService.get<{
+        releases: ProductWithFiles[];
+        popular: ProductWithFiles[];
+      }>("product-homepage");
+      const promisePageCategories =
+        baseService.get<CategoryPage[]>("pages/category");
+
+      const promiseCategories = baseService.get<Category[]>("category");
+
+      const [
+        { data: product },
+        { data: pageCategories },
+        { data: categories },
+      ] = await Promise.all([
+        promiseProductHome,
+        promisePageCategories,
+        promiseCategories,
+      ]);
+      setProducts(product);
+      setPageCategories(pageCategories);
+      setCategories(categories);
+    };
+    getData();
     validate();
   }, []);
-  
+  if (!product) return <FetchLoadingComponent isLoading={!product} />;
+
   return (
     <BaseComponent title="Konmaq">
       <div className={styles.container}>
         <main className={styles.main}>
           <OpenPageComponent
-            product={product}
+            product={product!}
             pageCategories={pageCategories}
             categories={categories}
           />
@@ -43,7 +66,8 @@ export default function Home({
           <a
             href="https://github.com/pedro-darde"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             Powered by{"@pedro_darde"}
             <span className={styles.logo}>
               <Image
@@ -59,26 +83,3 @@ export default function Home({
     </BaseComponent>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const promiseProductHome = baseService.get<{
-    releases: ProductWithFiles[];
-    popular: ProductWithFiles[];
-  }>("product-homepage");
-
-  const promisePageCategories =
-    baseService.get<CategoryPage[]>("pages/category");
-
-  const promiseCategories = baseService.get<Category[]>("category");
-
-  const [{ data: product }, { data: pageCategories }, { data: categories }] =
-    await Promise.all([
-      promiseProductHome,
-      promisePageCategories,
-      promiseCategories,
-    ]);
-
-  return {
-    props: { product, pageCategories, categories },
-  };
-};

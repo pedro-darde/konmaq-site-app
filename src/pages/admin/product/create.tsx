@@ -10,12 +10,23 @@ import useAlert from "../../../hooks/useAlert";
 import { useState } from "react";
 import FetchLoadingComponent from "../../../components/loaders/FetchLoadingComponent";
 import BaseComponent from "../../../components/BaseComponent";
-import AdminAuth from "../../../components/adminAuth";
+import { useWithAuthAdmin } from "../../../hooks/withAuth";
+import Login from "../../login";
+import Unauthorized from "../../../components/unauthorized";
 
-const Create = () => {
+export default function Create() {
   const { toast } = useAlert();
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { whereGoTo } = useWithAuthAdmin();
+  const where = whereGoTo();
+  if (where !== "continue") {
+    if (where === "login") {
+      return <Login />;
+    }
+    if (where === "unauthorized") {
+      return <Unauthorized />;
+    }
+  }
   const { data: categories, error } = useSWR<Category[], any>(
     "category",
     async (url) => {
@@ -64,7 +75,7 @@ const Create = () => {
   };
 
   return (
-    <BaseComponent title="Adicionar produto">
+    <BaseComponent title="Adicionar produto" shouldValidatePermission={true}>
       <Container maxWidth="xl">
         <TitleComponent title="Criar Produto" />
         <FormProduct
@@ -76,6 +87,4 @@ const Create = () => {
       </Container>
     </BaseComponent>
   );
-};
-
-export default AdminAuth(Create);
+}

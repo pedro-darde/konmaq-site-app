@@ -5,7 +5,7 @@ type FetchLoadingComponentProps = {
 };
 import { Dialog } from "@mui/material";
 export default function FetchLoadingComponent({
-  isLoading,
+  isLoading = true,
 }: FetchLoadingComponentProps) {
   return (
     <Dialog

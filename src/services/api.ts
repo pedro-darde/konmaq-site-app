@@ -97,9 +97,7 @@ class BaseService {
   }
 
   public getToken() {
-    const cookies = parseCookies()
-    console.log(cookies )
-    return parseCookies()[KONMAQ_TOKEN_KEY];  
+    return  storage.get(KONMAQ_TOKEN_KEY, false)
   }
 
   //   public async getUserLoggedId() {

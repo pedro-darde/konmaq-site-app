@@ -1,17 +1,14 @@
-import { parseCookies, setCookie, destroyCookie } from "nookies";
-
 export const KONMAP_PRODUCTS_KEY = "products";
 export const KONMAQ_TOKEN_KEY = "token";
 export const KONMAQ_ORDER_KEY = "order";
 
 class KonmaqStorage {
   public set(key: string, payload: string) {
-    setCookie(null ,key, payload);
+    localStorage.setItem(key, payload);
   }
 
-  public get<Type>(key: string, needToParse = true): any {
-      const cookies = parseCookies()
-      const item = cookies[key];
+  public get<Type>(key: string, needToParse = true): Type | any {
+      const item = localStorage.getItem(key)
       if (!item) return null;
       return needToParse ? (JSON.parse(item!) as Type) : item;
   }
@@ -23,7 +20,7 @@ class KonmaqStorage {
   }
 
   public remove(key: string) {
-    destroyCookie(null, key)
+    localStorage.removeItem(key)
   }
 
   public removeMany(keys: string[]) {
@@ -31,8 +28,7 @@ class KonmaqStorage {
   }
 
   public removeAll() {
-    const cookies = parseCookies();
-    Object.keys(cookies).forEach((key) => this.remove(key));
+    localStorage.clear()
   }
 }
 

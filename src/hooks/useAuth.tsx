@@ -40,18 +40,19 @@ export type UseAuthContextProviderProps = {
 export function AuthContextProvider({ children }: UseAuthContextProviderProps) {
   const [user, setUser] = useState<UserFromToken>({} as UserFromToken);
   const getToken = () => {
-      const token = storage.get<string>(KONMAQ_TOKEN_KEY, false);
-      if (token) {
-        return jwtDecode<{
-          role: string;
-          id: number;
-          iat: number;
-          exp: number;
-          userName: string;
-        }>(token);
-      }
-      return "";
-   };
+    if (typeof window === "undefined") return "";
+    const token = storage.get<string>(KONMAQ_TOKEN_KEY, false);
+    if (token) {
+      return jwtDecode<{
+        role: string;
+        id: number;
+        iat: number;
+        exp: number;
+        userName: string;
+      }>(token);
+    }
+    return "";
+  };
 
   const router = useRouter();
   const { fire, toast } = useAlert();
@@ -71,7 +72,6 @@ export function AuthContextProvider({ children }: UseAuthContextProviderProps) {
         storage.set(KONMAQ_TOKEN_KEY, res.data.accessToken);
         loadUserInfo();
         router.push(goTo);
-        console.log("loguei", parseCookies())
         if (showAlert) toast("Logado com sucesso.", false, 3500, "bottom-end");
       })
       .catch((err) => {

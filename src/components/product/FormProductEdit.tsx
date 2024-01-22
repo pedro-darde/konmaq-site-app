@@ -1,6 +1,10 @@
 import { FormEvent, useState } from "react";
 import { Category } from "../../interfaces/Category";
-import { Product, ProductAdded, RequiredFieldsProduct } from "../../interfaces/Product";
+import {
+  Product,
+  ProductAdded,
+  RequiredFieldsProduct,
+} from "../../interfaces/Product";
 import {
   Grid,
   Paper,
@@ -15,23 +19,23 @@ import {
 } from "@mui/material";
 import CurrencyFormat from "react-currency-format";
 import { AddedSupplier } from "../../interfaces/Supplier";
-import { DropzoneArea } from "mui-file-dropzone";
+// import { DropzoneArea } from "mui-file-dropzone";
 type FormProductProps = {
   handleSubmit: (product: ProductAdded, files: File[]) => void;
   categories: Category[];
   suppliers: AddedSupplier[];
-  productEdit: ProductAdded
+  productEdit: ProductAdded;
 };
 
 export default function FormProductEdit({
   categories,
   handleSubmit,
   suppliers,
-  productEdit
+  productEdit,
 }: FormProductProps) {
   const [product, setProduct] = useState<ProductAdded>(productEdit);
 
-  const [files, setFiles] = useState<Array<File>>([])
+  const [files, setFiles] = useState<Array<File>>([]);
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     handleSubmit(product, files);
@@ -74,7 +78,8 @@ export default function FormProductEdit({
             <Grid item xs={6}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Fornecedor do Produto </InputLabel>
                 <Select
                   defaultValue={""}
@@ -85,7 +90,8 @@ export default function FormProductEdit({
                       "supplier",
                       e.target.value as Array<number>
                     );
-                  }}>
+                  }}
+                >
                   {suppliers?.map((value, key) => {
                     return (
                       <MenuItem value={value.id} key={key}>
@@ -144,7 +150,8 @@ export default function FormProductEdit({
             <Grid item xs={6}>
               <FormControl
                 variant="standard"
-                sx={{ m: 1, width: "100%", margin: 0 }}>
+                sx={{ m: 1, width: "100%", margin: 0 }}
+              >
                 <InputLabel color="success"> Categorias do Produto </InputLabel>
                 <Select
                   defaultValue={""}
@@ -156,7 +163,8 @@ export default function FormProductEdit({
                       "categories",
                       e.target.value as Array<number>
                     );
-                  }}>
+                  }}
+                >
                   {categories?.map((value, key) => {
                     return (
                       <MenuItem value={value.id} key={key}>
@@ -333,10 +341,9 @@ export default function FormProductEdit({
           </Grid>
 
           <Grid container sx={{ marginTop: "1.5em" }}>
-          aaa
-
+            aaa
             <Grid item xs={12}>
-              <DropzoneArea
+              {/* <DropzoneArea
                 onChange={(files) => {
                   setFiles(files)
                 }}
@@ -346,7 +353,7 @@ export default function FormProductEdit({
                 showPreviewsInDropzone={true}
                 showFileNames={true}
                 previewText={"Arquivo selecionado: "}
-              />
+              /> */}
             </Grid>
           </Grid>
 
@@ -354,10 +361,16 @@ export default function FormProductEdit({
             container
             spacing={2}
             alignItems={"flex-start"}
-            sx={{ marginTop: "1.25em" }}>
+            sx={{ marginTop: "1.25em" }}
+          >
             <Grid item xs={9}></Grid>
             <Grid item xs={3}>
-              <Button color="error" variant="contained" style={{ marginRight: '1em' }} type="submit">
+              <Button
+                color="error"
+                variant="contained"
+                style={{ marginRight: "1em" }}
+                type="submit"
+              >
                 Cadastrar
               </Button>
             </Grid>

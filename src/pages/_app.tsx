@@ -4,17 +4,22 @@ import HeaderComponent from "../components/HeaderComponent";
 import { AuthContextProvider } from "../hooks/useAuth";
 import { CartContextProvider } from "../hooks/useCart";
 import { ProductContextProvider } from "../hooks/useProducts";
+import { WithAuthAdminContextProvider } from "../hooks/withAuth";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextProvider>
       <CartContextProvider>
         <ProductContextProvider>
-          <div>
-            <main>
-              <HeaderComponent childComponent={<Component {...pageProps} />} />
-            </main>
-          </div>
+          <WithAuthAdminContextProvider>
+            <div>
+              <main>
+                <HeaderComponent
+                  childComponent={<Component {...pageProps} />}
+                />
+              </main>
+            </div>
+          </WithAuthAdminContextProvider>
         </ProductContextProvider>
       </CartContextProvider>
     </AuthContextProvider>
